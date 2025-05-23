@@ -1,0 +1,68 @@
+<h1>Nova Gravação Multifaixa</h1>
+
+<%= form_with(model: @multirecording, local: true, html: { id: "recording-form" }) do |form| %>
+  <div class="mb-3">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <button type="button" class="btn btn-primary" onclick="recordTrack(0)">Gravar Faixa 1</button>
+    <button type="button" class="btn btn-primary" onclick="recordTrack(1)">Gravar Faixa 2</button>
+  </div>
+
+  <div id="waveform0" class="my-3"></div>
+  <div id="waveform1" class="my-3"></div>
+
+  <%= form.file_field :tracks, id: "upload-tracks", multiple: true, style: "display: none;" %>
+
+  <%= form.submit "Salvar Gravação", class: "btn btn-success" %>
+<% end %>
+
+<%= javascript_include_tag "https://unpkg.com/wavesurfer.js" %>
+<%= javascript_include_tag "https://unpkg.com/tone" %>
+
+<script>
+let audioBlobs = [];
+
+window.recordTrack = async function(index) {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const recorder = new MediaRecorder(stream);
+  const chunks = [];
+
+  recorder.ondataavailable = e => chunks.push(e.data);
+
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: 'audio/webm' });
+    const url = URL.createObjectURL(blob);
+    audioBlobs[index] = blob;
+
+    // WaveSurfer
+    const waveform = WaveSurfer.create({
+      container: `#waveform${index}`,
+      waveColor: '#ddd',
+      progressColor: '#2196f3'
+    });
+    waveform.load(url);
+
+    // Prepara para enviar no form
+    const file = new File([blob], `track${index + 1}.webm`, { type: 'audio/webm' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    
+    const input = document.querySelector("#upload-tracks");
+    const dt = new DataTransfer();
+
+    // Adiciona todos os blobs já gravados ao input
+    audioBlobs.forEach((blob, i) => {
+      const file = new File([blob], `track${i + 1}.webm`, { type: "audio/webm" });
+      dt.items.add(file);
+    });
+
+    input.files = dt.files;
+  };
+
+  recorder.start();
+  setTimeout(() => recorder.stop(), 5000); // grava 5s
+};
+</script>

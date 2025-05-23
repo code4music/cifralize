@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg shadow-sm mt-2">
+  <div class="container-fluid px-4">
+    <%= link_to "Cifralize", root_path, class: 'fs-1 text-primary fw-bold text-decoration-none d-none d-md-inline' %>
+    <!-- <%= link_to "C", root_path, class: 'text-primary fw-bold text-decoration-none d-inline d-md-none', style: 'font-size: 50px' %> -->
+    <!--
+    <a class="navbar-brand" href="/">
+      <%= image_tag "logo.png", class: 'img-fluid', size: 150 %>
+    </a>
+    -->
+
+    <%= render "layouts/search" %>
+
+    <ul class="navbar-nav d-flex align-items-center">
+      <%= render "layouts/theme" %>
+      <%= render "layouts/menu" %>
+    </ul>
+  </div>
+</nav>
+
+<br>

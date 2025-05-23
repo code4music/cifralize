@@ -1,0 +1,46 @@
+<h2 class="mb-4">Sobre o Cifralize</h2>
+<p>
+  <strong>Cifralize</strong> é uma plataforma <em>open source</em> dedicada a cifras de músicas, desenvolvida para ser simples, poderosa e acessível.
+  Com foco na praticidade e compartilhamento, o Cifralize permite que qualquer pessoa navegue, transponha tons e organize músicas em listas personalizadas.
+</p>
+<p>
+  Além disso, o projeto oferece <strong>APIs de integração</strong>, possibilitando que desenvolvedores incorporem cifras diretamente em seus próprios sites por meio de <code>embed</code>.
+</p>
+<p>
+  Usuários cadastrados podem criar <strong>listas privadas ilimitadas</strong>, ideais para organizar repertórios pessoais, estudos ou apresentações.
+</p>
+<p>
+  Cifralize é um projeto de <strong>código aberto</strong> e colaborativo. A comunidade é bem-vinda para sugerir melhorias, contribuir com o código ou utilizar a API como desejar.
+</p>
+
+<hr>
+
+<h4>Como incorporar uma cifra</h4>
+
+<p>Você pode incorporar qualquer cifra do Cifralize em outro site usando a tag abaixo:</p>
+
+<pre class="bg-light p-3 rounded border">
+  <code>&lt;iframe src="https://cifralize.com.br/embed/artista/musica" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code>
+</pre>
+
+<iframe src="/embed/artista/musica" width="100%" height="400" frameborder="0"></iframe>
+
+<p>
+  Ao incorporar uma cifra usando a tag <code>&lt;iframe&gt;</code>, você pode personalizar a exibição utilizando parâmetros na URL.
+  O parâmetro <code>transpose</code> permite alterar o tom da música automaticamente. Por exemplo, <code>?transpose=2</code> sobe dois semitons.
+  Já o parâmetro <code>layout</code> define o tema visual da cifra incorporada: use <code>layout=light</code> para um visual claro ou
+  <code>layout=dark</code> para um visual escuro, ideal para ambientes com pouca luz. Você pode combiná-los, como neste exemplo:
+  <code>?transpose=-1&amp;layout=dark</code>.
+</p>
+
+<p>
+  Por padrão, o título da música e o nome do artista são exibidos no embed. No entanto, é possível ocultá-los utilizando os parâmetros
+  <code>show_title=false</code> e <code>show_artist=false</code> na URL. Exemplo:
+  <code>?transpose=0&amp;layout=light&amp;show_title=false&amp;show_artist=false</code>.
+</p>
+
+<pre class="bg-light p-3 rounded border">
+  <code>&lt;iframe src="https://cifralize.com.br/embed/artista/musica?show_title=false&show_artist=false" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code>
+</pre>
+
+<iframe src="/embed/artista/musica?show_title=false&show_artist=false" width="100%" height="400" frameborder="0"></iframe>

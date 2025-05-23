@@ -1,0 +1,50 @@
+<br><br>
+<main class="d-flex w-100 mt-5">
+  <div class="container d-flex flex-column">
+    <div class="row">
+      <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table">
+        <div class="d-table-cell align-middle">
+          <div class="card">
+            <div class="card-body">
+              <div class="text-center">
+                <p class="lead">Login</p>
+              </div>
+              <div class="m-sm-3">
+                <% flash.each do |key, value| %>
+                  <div class="text-center" style="font-size: 15px"><%= value %></div>
+                <% end %>
+                <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                  <div class="mb-3">
+                    <%= f.label :email %><br />
+                    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control form-control-lg' %>
+                  </div>
+                  <div class="mb-3">
+                    <%= f.label 'Senha' %><br />
+                    <%= f.password_field :password, autocomplete: "current-password", class: 'form-control form-control-lg' %>
+                  </div>
+                  <div>
+                    <div class="form-check align-items-center">
+                      <% if devise_mapping.rememberable? %>
+                        <%= f.check_box :remember_me, class: 'form-check-input', checked: true %>
+                        <%= f.label 'Lembrar-me', class: 'form-check-label text-small' %>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="d-grid gap-2 mt-3">
+                    <%= f.submit "Entrar", class: 'btn btn-lg btn-primary' %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-5 mb-3">
+            Você ainda não tem uma conta?
+            <%= link_to 'Cadastrar-se', new_user_registration_path(company_slug: params[:company_slug]) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<br><br>

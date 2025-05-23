@@ -1,0 +1,13 @@
+<h1><b>Editar</b> usuário</h1>
+<%= link_to 'Voltar', users_path, class: 'card-link' %><br><br>
+
+<div class="card">
+  <div class="card-body">
+    <p class="card-text">
+      <p class="lead">Editar usuário</p>
+      <%= render "form", user: @user %>
+    </p>
+  </div>
+</div>
+
+<%= button_to "Excluir usuário", @user, method: :delete, class: 'btn btn-danger' %>

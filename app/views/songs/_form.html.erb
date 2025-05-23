@@ -1,0 +1,87 @@
+<%= stylesheet_link_tag "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" %>
+<%= javascript_include_tag "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js" %>
+
+<%= form_with(model: song) do |form| %>
+  <%= render "shared/errors", model: song %>
+
+  <%= form.hidden_field :cifraclub_url, value: song.cifraclub_url %>
+  <%= form.hidden_field :from_cifraclub, value: song.from_cifraclub %>
+
+  <% if current_user.role == Role.admin %>
+    <div class="form-check mb-3">
+      <%= form.label :verified, "Revisado", class: "form-check-label", for: "verifiedCheck" %>
+      <%= form.check_box :verified, class: "form-check-input", id: "verifiedCheck" %>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12 col-lg-6">
+        <%= form.label :user_id, style: "display: block" %>
+        <%= form.select :user_id, options_for_select(User.all.map { |u| [u.email, u.id] }, song.user_id), {}, class: "form-select" %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :title, style: "display: block" %>
+      <%= form.text_field :title, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :artist_id, style: "display: block" %>
+      <%= form.select :artist_id, options_for_select(Artist.all.map { |u| [u.name, u.id] }, song.artist_id), {}, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :genre_id, style: "display: block" %>
+      <%= form.select :genre_id, options_for_select(Genre.all.map { |u| [u.name, u.id] }, song.genre_id), {}, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :key, style: "display: block" %>
+      <%= form.select :key, options_for_select(["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"], @song.key), {}, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :chords, style: "display: block" %>
+      <%= form.text_area :chords, id: "chords-editor" %>
+    </div>
+  </div>
+
+  <!--
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :composers, style: "display: block" %>
+      <%= form.text_field :composers, class: "form-control" %>
+    </div>
+  </div>
+  -->
+
+  <div class="row mb-3">
+    <div class="col-md-6 col-lg-3">
+      <%= form.label :youtube_url, style: "display: block" %>
+      <%= form.text_field :youtube_url, class: "form-control" %>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <%= form.label :spotify_url, style: "display: block" %>
+      <%= form.text_field :spotify_url, class: "form-control" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  new SimpleMDE({ element: document.getElementById("chords-editor") });
+});
+</script>

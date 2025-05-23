@@ -1,0 +1,21 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Listas Públicas</li>
+  </ol>
+</nav>
+
+<table class="table">
+  <tr>
+    <th>Nome</th>
+    <th></th>
+  </tr>
+  <% @playlists.each do |playlist| %>
+    <tr>
+      <td><%= playlist.name %></td>
+      <td>
+        <%= link_to "Músicas (#{playlist.songs.count})", playlist_path(playlist), class: 'btn btn-sm btn-outline-primary' %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -1,0 +1,14 @@
+<% datatable_id = '.table' if datatable_id == nil %>
+<% scrollx = false if scrollx == nil %>
+
+<script>
+$(document).ready(function() {
+  var table = new DataTable('<%= datatable_id %>', {
+    language: {
+      url: '/datatable.pt-BR.json',
+    },
+    responsive: true,
+    scrollX: <%= scrollx %>
+  });
+});
+</script>

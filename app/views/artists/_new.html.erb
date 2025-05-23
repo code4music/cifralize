@@ -1,0 +1,32 @@
+<button type="button" class="nav-link fw-bold" data-bs-toggle="modal" data-bs-target="#uploadArtistModal">
+  Novo Artista
+  <i class="fas fa-upload ms-1"></i>
+</button>
+
+<div class="modal fade" id="uploadArtistModal" tabindex="-1" aria-labelledby="uploadArtistModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="uploadArtistModalLabel">Escolha uma opção</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body d-flex flex-column gap-3">
+        <a href="<%= new_artist_path %>" class="btn btn-outline-success btn-lg w-100">
+          Novo Artista
+        </a>
+        <div>
+          <button class="btn btn-outline-primary btn-lg w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#importForm">
+            Importar do CifraClub
+          </button>
+
+          <div class="collapse" id="importForm">
+            <%= form_with url: cifraclub_artist_scraper_path, method: :get do %>
+              <%= text_field_tag :cifraclub_url, params[:cifraclub_url], class: "form-control mb-3", placeholder: "https://www.cifraclub.com.br/frei-gilson" %>
+              <%= submit_tag "Importar", class: "btn btn-primary w-100" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

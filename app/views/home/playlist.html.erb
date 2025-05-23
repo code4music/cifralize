@@ -1,0 +1,41 @@
+<h1><%= @playlist.name %></h1>
+
+<button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#playlistModal-<%= @playlist.id %>">
+  Detalhes
+</button>
+
+<div class="modal fade" id="playlistModal-<%= @playlist.id %>" tabindex="-1" aria-labelledby="playlistModalLabel-<%= @playlist.id %>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="playlistModalLabel-<%= @playlist.id %>">Detalhes da Lista</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nome:</strong> <%= @playlist.name %></p>
+        <p><strong>Descrição:</strong> <%= @playlist.description.presence || "Sem descrição" %></p>
+      </div>
+      <div class="modal-footer">
+        <%= link_to "Editar", edit_playlist_path(@playlist), class: "btn btn-primary" %>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% @playlist_songs.each do |ps| %>
+  <div>
+    <h3><%= ps.song.title %></h3>
+
+    <% transposed_chords = ChordTransposerHelper.transpose(ps.song.chords, ps.transpose) %>
+
+    <div class="chords-display" style="white-space: pre-wrap; font-family: monospace;">
+      <%= raw format_chords(transposed_chords) %>
+    </div>
+
+    <p>Tom: <%= ps.transpose %></p>
+
+    <%= link_to "+1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose + 1), method: :patch %>
+    <%= link_to "-1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose - 1), method: :patch %>
+  </div>
+<% end %>

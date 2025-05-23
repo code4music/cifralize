@@ -1,0 +1,26 @@
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile
+    restart: on-failure
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - ../:/app
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+      DB_HOST: db
+      DB_USER: cifralize
+      DB_PASSWORD: OD8010L3Xv8e
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: cifralize
+      POSTGRES_PASSWORD: OD8010L3Xv8e
+    volumes:
+      - ../db/postgres:/var/lib/postgresql/data

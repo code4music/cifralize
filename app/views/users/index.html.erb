@@ -1,0 +1,42 @@
+<h1 class="h3 mb-3"><strong>Lista</strong> de usuários</h1>
+
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title mb-0">Usuários</h5>
+  </div>
+  <div class="card-body">
+    <%= link_to new_user_path, class: 'btn btn-primary' do %>
+      <span class="align-middle">Novo</span>
+      <i class="align-middle" data-feather="plus-circle"></i>
+    <% end %>
+    <br><br>
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Perfil</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= link_to user.name, user_path(user) %></td>
+            <td><%= user.email %></td>
+            <td><%= user.role.name %></td>
+            <td>
+              <%= link_to whatsapp_api_url(user.phone), class: 'btn btn-success btn-sm', target: '_blank' do %>
+                Whatsapp <i class="fab fa-whatsapp"></i>
+              <% end %>
+            </td>
+            <td><%= link_to 'Editar', edit_user_path(user) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'shared/datatable' %>

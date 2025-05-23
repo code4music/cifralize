@@ -1,0 +1,29 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Artistas</li>
+  </ol>
+</nav>
+
+<%= render "artists/new" %>
+
+<br><br>
+
+<%= paginate @artists %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Visibilidade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @artists.each do |artist| %>
+      <tr>
+        <td><%= link_to artist.name, artist_path(artist.uuid) %></td>
+        <td><%= artist.visibility %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

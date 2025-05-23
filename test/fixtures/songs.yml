@@ -1,0 +1,9 @@
+one:
+  title: MyString
+  artist: MyString
+  chords: MyText
+
+two:
+  title: MyString
+  artist: MyString
+  chords: MyText

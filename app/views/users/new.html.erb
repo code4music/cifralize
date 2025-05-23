@@ -1,0 +1,11 @@
+<h1><b>Novo</b> usuário</h1>
+<%= link_to 'Voltar', users_path, class: 'card-link' %><br><br>
+
+<div class="card">
+  <div class="card-body">
+    <p class="card-text">
+      <p class="lead">Novo usuário</p>
+      <%= render "form", user: @user %>
+    </p>
+  </div>
+</div>

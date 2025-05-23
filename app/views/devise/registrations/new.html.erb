@@ -1,0 +1,82 @@
+<br><br>
+<main class="d-flex w-100 mt-5">
+  <div class="container d-flex flex-column">
+    <div class="row">
+      <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table">
+        <div class="d-table-cell align-middle">
+          <div class="card">
+            <div class="card-body">
+              <div class="text-center">
+                <p class="lead">Registrar-se</p>
+              </div>
+              <div class="m-sm-3">
+                <%= form_for(resource, as: resource_name, url: registration_path(resource_name, company_slug: params[:company_slug], redirect_to: params[:redirect_to])) do |f| %>
+                  <%= render "devise/shared/error_messages", resource: resource %>
+                  <div class="row">
+                    <div class="col-6">
+                      <%= f.label 'Nome' %><span style="color: red">*</span><br>
+                      <%= f.text_field :name, autofocus: true, class: 'form-control', placeholder: 'Digíte seu nome' %>
+                    </div>
+                    <div class="col-6">
+                      <%= f.label 'Telefone' %><br>
+                      <%= f.text_field :phone, class: 'form-control phone' %>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-12">
+                      <%= f.label :email %><span style="color: red">*</span><br>
+                      <%= f.email_field :email, autocomplete: "email", placeholder: 'Dígite seu e-mail', class: 'form-control' %>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-6">
+                      <%= f.label :password %><span style="color: red">*</span><br>
+                      <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+                      <% if @minimum_password_length %>
+                        <em style="font-size: 12px">(mínimo <%= @minimum_password_length %> caracteres)</em>
+                      <% end %>
+                    </div>
+                    <div class="col-6">
+                      <%= f.label :password_confirmation %><span style="color: red">*</span><br>
+                      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-12">
+                      <label>
+                        <input type="checkbox">
+                        Eu li e concordo com a <%= link_to "política de privacidade", "#", target: :_blank %>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="d-grid gap-2 mt-3">
+                    <%= f.submit "Cadastrar", class: 'btn btn-lg btn-primary' %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var telefoneInputs = document.getElementsByClassName('phone');
+
+  for (var i = 0; i < telefoneInputs.length; i++) {
+    telefoneInputs[i].addEventListener('input', function() {
+      var telefone = this.value.replace(/\D/g, '');
+      telefone = telefone.slice(0, 11);
+      telefone = telefone.replace(/^(\d{2})(\d)/g, '($1) $2 ');
+      telefone = telefone.replace(/(\d)(\d{4})$/, '$1-$2');
+      this.value = telefone;
+    });
+  }
+});
+</script>

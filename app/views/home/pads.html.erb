@@ -1,0 +1,62 @@
+<h1 class="text-center mb-4">🎶 Continuous Pad</h1>
+
+<% sounds = {
+  "c" => "C",
+  "csus" => "C#",
+  "d" => "D",
+  "dsus" => "D#",
+  "e" => "E",
+  "f" => "F",
+  "fsus" => "F#",
+  "g" => "G",
+  "gsus" => "G#",
+  "a" => "A",
+  "asus" => "A#",
+  "b" => "B",
+} %>
+
+<% sounds.each do |filename, label| %>
+  <%= audio_tag "pads/soft/#{filename}.mp3", id: "audio-#{filename}", preload: "auto", style: "display: none;" %>
+<% end %>
+
+<div class="row g-4 mt-4">
+  <% sounds.each do |filename, label| %>
+    <div class="col-6 col-md-3">
+      <button
+        class="btn border rounded p-4 shadow-sm w-100 py-5 fs-3 pad-button"
+        data-sound="<%= filename %>"
+        data-audio-id="audio-<%= filename %>">
+        <%= label %>
+      </button>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".pad-button");
+
+    buttons.forEach(button => {
+      const audioId = button.dataset.audioId;
+      const audio = document.getElementById(audioId);
+      audio.loop = true;
+
+      button.addEventListener("click", () => {
+        const isPlaying = !audio.paused;
+
+        // Parar todos os outros áudios e remover destaques
+        document.querySelectorAll(".pad-button").forEach(btn => {
+          const otherAudio = document.getElementById(btn.dataset.audioId);
+          otherAudio.pause();
+          otherAudio.currentTime = 0;
+          btn.classList.remove("btn-primary");
+        });
+
+        if (!isPlaying) {
+          audio.play();
+          button.classList.add("btn-primary");
+        }
+      });
+    });
+  });
+</script>

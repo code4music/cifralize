@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV["DB_HOST"] %>
+  port: 5432
+  username: <%= ENV["DB_USER"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+  pool: 5
+
+development:
+  <<: *default
+  database: cifralize_development
+
+test:
+  <<: *default
+  database: cifralize_test
+
+production:
+  <<: *default
+  database: cifralize_production

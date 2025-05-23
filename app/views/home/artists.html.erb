@@ -1,0 +1,27 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Todas os Artistas</li>
+  </ol>
+</nav>
+
+<%= link_to "Todos os artistas", artists_path, class: "btn btn-primary float-end" if current_user.role == Role.admin %>
+
+<%= paginate @artists %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @artists.each do |artist| %>
+      <tr>
+        <td><%= link_to artist.name, home_artist_path(artist.slug) %></td>
+        <td><%= link_to "Músicas (#{artist.songs.count})", home_artist_path(artist.slug), class: 'btn btn-sm btn-outline-primary' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

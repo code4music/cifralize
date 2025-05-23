@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @song.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= stylesheet_link_tag 'bootstrap/bootstrap.min.css', 'data-turbo-track': 'reload' %>
+</head>
+<body data-bs-theme="<%= %w(dark light).include?(params[:theme]) ? params[:theme] : 'light' %>">
+  <%= yield %>
+</body>
+</html>

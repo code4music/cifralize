@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Multirecordings</h1>
+
+<div id="multirecordings">
+  <% @multirecordings.each do |multirecording| %>
+    <%= render multirecording %>
+    <p>
+      <%= link_to "Show this multirecording", multirecording %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New multirecording", new_multirecording_path %>

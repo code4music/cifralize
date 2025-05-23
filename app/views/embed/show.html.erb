@@ -1,0 +1,10 @@
+<% if params[:show_title].to_s != 'false' %>
+  <h1><%= @song.title %></h1>
+<% end %>
+<% if params[:show_artist].to_s != 'false' %>
+  <h2><%= @song.artist.name %></h2>
+<% end %>
+
+<div class="chords-display" style="white-space: pre-wrap; font-family: monospace;">
+  <%= raw format_chords(@transposed_chords.presence || @song.chords) %>
+</div>

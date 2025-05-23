@@ -1,0 +1,22 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Gravações</li>
+  </ol>
+</nav>
+
+<%= link_to "Nova Gravação", new_recording_path, class: 'btn btn-primary float-end' %><br><br>
+
+<h2>Minhas gravações</h2>
+
+<%= paginate @recordings %>
+
+<% @recordings.each do |rec| %>
+  <p><strong><%= rec.title %></strong></p>
+  <% if rec.audio_file.attached? %>
+    <audio controls src="<%= url_for(rec.audio_file) %>"></audio>
+  <% else %>
+    <p>Sem áudio gravado</p>
+  <% end %>
+  <br><br>
+<% end %>

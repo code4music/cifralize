@@ -1,0 +1,22 @@
+
+<br><br><br>
+<footer class="mt-5 border-top bg-body-secondary text-body py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <p class="mb-1"><%= link_to "#{Song.count} músicas", home_songs_path, class: "text-decoration-none text-body" %></p>
+        <p class="mb-1"><%= link_to "#{Artist.count} artistas", home_artists_path, class: "text-decoration-none text-body" %></p>
+        <p class="mb-0"><%= link_to "#{Playlist.count} listas", home_playlists_path, class: "text-decoration-none text-body" %></p>
+      </div>
+      <div class="col-md-6 mb-3">
+        <p class="mb-1"><%= link_to "Início", root_path, class: "text-decoration-none text-body" %></p>
+        <p class="mb-1"><%= link_to "Sobre", about_path, class: "text-decoration-none text-body" %></p>
+        <p class="mb-1"><%= link_to "Contato", root_path, class: "text-decoration-none text-body" %></p>
+        <p class="mb-0"><%= link_to "GitHub", "https://github.com/code4music/cifralize", class: "text-decoration-none text-body", target: "_blank" %></p>
+      </div>
+    </div>
+    <div class="text-center border-top pt-3">
+      <p class="mb-0">&copy; <%= Date.today.year %> <%= t('app') %>. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>

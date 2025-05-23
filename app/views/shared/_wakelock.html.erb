@@ -1,0 +1,28 @@
+<button class="btn btn-outline-secondary btn-sm float-end me-2" onclick="wakelock()">Manter Tela Ligada</button>
+
+<script>
+  let wakeLock = null;
+
+  async function wakelock() {
+    if ('wakeLock' in navigator) {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        console.log('Wake Lock ativado.');
+
+        document.addEventListener('visibilitychange', async () => {
+          if (wakeLock !== null && document.visibilityState === 'visible') {
+            wakeLock = await navigator.wakeLock.request('screen');
+            console.log('Wake Lock reativado após voltar à aba visível.');
+          }
+        });
+
+        alert("Tela será mantida ligada enquanto esta página estiver aberta.");
+      } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+        alert("Erro ao tentar ativar o Wake Lock.");
+      }
+    } else {
+      alert("Este navegador não suporta a funcionalidade de manter a tela ligada.");
+    }
+  }
+</script>

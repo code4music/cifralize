@@ -1,0 +1,27 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Todas as Músicas</li>
+  </ol>
+</nav>
+
+<br><%= link_to "Minhas Músicas", songs_path, class: "btn btn-primary float-end" %>
+
+<%= paginate @songs %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Artista</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @songs.each do |song| %>
+      <tr>
+        <td><%= link_to song.title, home_song_path(song.artist.slug, song.slug) %></td>
+        <td><%= song.artist.name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

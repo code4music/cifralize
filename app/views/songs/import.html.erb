@@ -1,0 +1,28 @@
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow rounded-4">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="mb-0">Importar Música</h5>
+        </div>
+
+        <div class="d-grid gap-3">
+          <%= link_to "Nova música", new_song_path, class: "btn btn-outline-success btn-lg" %>
+
+          <div>
+            <button class="btn btn-outline-primary btn-lg w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#importForm">
+              Importar do CifraClub
+            </button>
+
+            <div class="collapse" id="importForm">
+              <%= form_with url: cifraclub_song_scraper_path, method: :get do %>
+                <%= text_field_tag :cifraclub_url, params[:cifraclub_url], class: "form-control mb-3", placeholder: "https://www.cifraclub.com.br/frei-gilson/eu-seguirei" %>
+                <%= submit_tag "Importar", class: "btn btn-primary w-100" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<%= form_with(model: user) do |form| %>
+  <%= render "shared/errors", model: user %>
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <%= form.label :role %><span style="color: red">*</span>
+      <%= form.collection_select(:role_id, Role.all, :id, :name, {}, {class: 'form-select'}) %>
+    </div>
+  </div>
+  <br><hr><br>
+  <p class="lead">Informações básicas</p>
+  <div class="row">
+    <div class="col-8 col-md-3">
+      <%= form.label :name %><span style="color: red">*</span>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+    <div class="col-8 col-md-2">
+      <%= form.label :phone, style: "display: block" %>
+      <%= form.text_field :phone, class: 'form-control phone' %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-10 col-md-3">
+      <%= form.label :email %><span style="color: red">*</span>
+      <%= form.text_field :email, class: 'form-control' %>
+    </div>
+    <div class="col-8 col-md-3">
+      <%= form.label :password %><span style="color: red">*</span>
+      <%= form.password_field :password, class: 'form-control' %>
+      <% if @user.persisted? # edit %>
+        <span style="color: red">Preencha esse campo apenas para gerar uma nova senha.</span>
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <div>
+    <%= form.submit 'Salvar', class: 'btn btn-primary' %>
+  </div>
+<% end %>

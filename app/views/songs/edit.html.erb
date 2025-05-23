@@ -1,0 +1,10 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Editar Cifra</li>
+  </ol>
+</nav>
+
+<%= render "form", song: @song %>
+
+<br><%= button_to "Excluir", @song, method: :delete, class: "btn btn-danger btn-sm" %>

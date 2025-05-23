@@ -1,0 +1,52 @@
+pt-BR:
+  activerecord:
+    models:
+      user:
+        one: Usuário
+        other: Usuários
+      artist:
+        one: Artista
+        other: Artistas
+    attributes:
+      user:
+        email: E-mail
+        name: Nome do usuário
+        phone: Telefone de contato
+        password: Senha
+        password_confirmation: Confirmação da senha
+      artist:
+        name: Nome do artista
+      genre:
+        name: Nome do gênero
+      song:
+        user_id: Usuário
+        title: Título da música
+        artist_id: Artista
+        genre_id: Gênero
+        chords: Cifra
+        status: Status
+        key: Tom
+        composers: Compositores
+        verified: Revisada
+        visibility: Visibilidade
+        youtube_url: URL do Youtube
+        spotify_url: URL do Spotify
+      playlist:
+        name: Nome da lista
+        description: Descrição
+        status: Status
+        visibility: Visibilidade
+  helpers:
+    submit:
+      artist:
+        create: "Criar Artista"
+        update: "Atualizar Artista"
+      genre:
+        create: "Criar Gênero"
+        update: "Atualizar Gênero"
+      song:
+        create: "Criar Música"
+        update: "Atualizar Música"
+      playlist:
+        create: "Criar Lista"
+        update: "Atualizar Lista"

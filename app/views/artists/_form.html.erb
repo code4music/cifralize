@@ -1,0 +1,29 @@
+<%= form_with(model: artist) do |form| %>
+  <%= render "shared/errors", model: artist %>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :visibility, class: "form-label" do %>
+        Visibilidade
+        <i class="fas fa-info-circle ms-1"
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Particular: apenas você pode ver. Pública: visível por todos.">
+        </i>
+      <% end %>
+
+      <%= form.select :visibility, [['Lista Particular', 'private'], ['Lista Pública', 'public'], ['Não Listada', 'unlisted']], {}, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :name, style: "display: block" %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

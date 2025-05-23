@@ -1,0 +1,182 @@
+<h1>Página de perfil do <%= @user.name %></h1>
+<%= link_to 'Voltar', :back, class: 'card-link' %><br><br>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card mb-4">
+      <div class="card-body text-center">
+        <%= image_tag "avatar-default.png", class: "rounded-circle img-fluid rounded", width: '150' %>
+        <h5 class="mt-3 lead"><%= @user.name %></h5>
+        <p class="text-muted mb-0"><%= @user.title %></p>
+        <p class="text-muted mb-4"><%= @user.office %></p>
+        <div class="d-flex justify-content-center mb-2">
+          <%= link_to profile_path, class: 'btn btn-outline-primary' do %>
+            Editar
+          <% end if @user == current_user %>
+          <%= link_to whatsapp_api_url(@user.phone), class: 'btn btn-success ms-2', target: '_blank' do %>
+            Whatsapp <i class="fab fa-whatsapp"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-4 mb-lg-0">
+      <div class="card-body p-0">
+        <ul class="list-group list-group-flush rounded-3">
+          <% if @user.linkedin %>
+            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+              <i class="fab fa-linkedin fa-lg" style="color: #55acee;"></i>
+              <p class="mb-0"><%= link_to @user.linkedin, @user.linkedin, target: '_blank' %></p>
+            </li>
+          <% end %>
+          <% if @user.instagram %>
+            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+              <i class="fab fa-instagram fa-lg" style="color: #d063f1;"></i>
+              <p class="mb-0"><%= link_to @user.instagram, @user.instagram, target: '_blank' %></p>
+            </li>
+          <% end %>
+          <% if @user.website %>
+            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+              <i class="fas fa-globe fa-lg text-warning"></i>
+              <p class="mb-0"><%= link_to @user.website, @user.website, target: '_blank' %></p>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Nome</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0"><%= @user.name %></p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">E-mail</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0"><%= @user.email %></p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Perfil</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0"><%= @user.role.name %></p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Unidade</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0"><%= @user.company.name if @user.company %></p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Empresa</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0"><%= @user.title %></p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Telefone</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0"><%= @user.phone %></p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Endereço</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0"><%= @user.address %></p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Pontuação <i class="fas fa-star text-warning"></i></p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0"><%= @user.amount_points %> pontos</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Cadastrado em</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0"><%= date @user.created_at %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card mb-4 mb-md-0">
+        <div class="card-body">
+          <p class="mb-2">Últimas atividades</p>
+          <table class="table table-hover my-0">
+            <tbody>
+              <% @user.points.limit(5).reverse.each do |point| %>
+                <tr>
+                  <td><%= point.name %></td>
+                  <td><i class="fas fa-star text-warning"></i> <%= point.amount %></td>
+                  <td><%= time_ago_in_words point.created_at %> atrás</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card mb-4 mb-md-0">
+        <div class="card-body">
+          <p class="mb-2">Inscrições</p>
+          <table class="table table-hover my-0">
+            <tbody>
+              <% UserCourse.where(user: @user).limit(5).reverse.each do |user_course| %>
+                <tr>
+                  <td><%= link_to user_course.course.name, user_course.course %></td>
+                  <td><%= time_ago_in_words user_course.created_at %> atrás</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @user.entrepreneurs.count > 0 %>
+  <% @entrepreneur = @user.entrepreneurs.last %>
+  <br><br><hr><br>
+  <h1 class="leads">Perfil empreendedor</h1>
+  <%= link_to "Análise completa", perfil_empreendedor_report_url(@entrepreneur) %><br><br>
+  <div class="row">
+    <%= render 'perfil_empreendedor/ideias_oportunidades' %>
+    <%= render 'perfil_empreendedor/recursos' %>
+    <%= render 'perfil_empreendedor/acao' %>
+  </div>
+<% end %>

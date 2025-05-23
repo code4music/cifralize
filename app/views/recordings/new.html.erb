@@ -1,0 +1,75 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Nova Gravação</li>
+  </ol>
+</nav>
+
+<h2>Gravar Áudio</h2>
+
+<button id="startBtn" class="btn btn-primary">
+  <i class="fas fa-play-circle"></i> Gravar
+</button>
+<button id="stopBtn" class="btn btn-danger" disabled>
+  <i class="fas fa-stop-circle"></i> Parar
+</button>
+
+<br><br>
+
+<div id="formContainer" style="display: none;">
+  <audio id="player" controls></audio>
+
+  <%= form_with model: Recording.new, local: true, html: { multipart: true } do |f| %>
+    <div class="mb-3 mt-3">
+      <%= f.label :title, "Nome da gravação" %>
+      <%= f.text_field :title, class: "form-control", required: true %>
+    </div>
+
+    <%= f.file_field :audio_file, id: "audioFileInput", style: "display: none;" %>
+    <%= f.submit "Salvar Gravação", class: "btn btn-success", id: "saveBtn" %>
+  <% end %>
+</div>
+
+<script>
+  let mediaRecorder;
+  let audioChunks = [];
+
+  const startBtn = document.getElementById('startBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const player = document.getElementById('player');
+  const audioFileInput = document.getElementById('audioFileInput');
+  const formContainer = document.getElementById('formContainer');
+
+  startBtn.onclick = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = e => {
+      if (e.data.size > 0) audioChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = () => {
+      const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+      const file = new File([audioBlob], 'gravacao.webm', { type: 'audio/webm' });
+
+      player.src = URL.createObjectURL(audioBlob);
+
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      audioFileInput.files = dataTransfer.files;
+
+      formContainer.style.display = 'block';
+    };
+
+    mediaRecorder.start();
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+  };
+
+  stopBtn.onclick = () => {
+    mediaRecorder.stop();
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+  };
+</script>

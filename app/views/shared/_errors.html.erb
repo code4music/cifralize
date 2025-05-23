@@ -1,0 +1,10 @@
+<% if model.errors.any? %>
+  <div class="text-danger">
+    <h2 class="fs-4 text">Não foi possível salvar:</h2>
+    <ul>
+      <% model.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

@@ -1,0 +1,69 @@
+<%= form_with url: search_path, method: :get, html: { class: "d-flex mx-auto w-100 w-md-50", role: "search" } do %>
+  <button class="btn btn-outline-primary btn-lg d-inline d-md-none me-3" type="button" data-bs-toggle="modal" data-bs-target="#appsModal">
+    <i class="fas fa-th-large"></i>
+  </button>
+  <div class="input-group">
+    <%= text_field_tag :q, params[:q], id: 'search-input', class: "form-control", placeholder: "O que você quer tocar hoje?", aria: { label: "Search" } %>
+    <div class="input-group-append d-flex gap-1">
+      <button class="btn btn-outline-primary" type="button" id="voiceBtn" style="font-size: 26px">
+        <i class="fa fa-microphone" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-danger d-none" type="button" id="cancelBtn" style="font-size: 26px">
+        <i class="far fa-stop-circle"></i>
+      </button>
+    </div>
+  </div>
+<% end %>
+
+<style>
+@media (min-width: 768px) {
+  .w-md-50 {
+    width: 50% !important;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  if ('webkitSpeechRecognition' in window) {
+    var recognition = new webkitSpeechRecognition();
+    var inputField = $('#search-input');
+    var voiceBtn = $('#voiceBtn');
+    var cancelBtn = $('#cancelBtn');
+    var sendBtn = $('#button-send');
+
+    recognition.onstart = function() {
+      voiceBtn.addClass('d-none');
+      cancelBtn.removeClass('d-none');
+    };
+
+    recognition.onresult = function(event) {
+      var result = event.results[0][0].transcript;
+      inputField.val(result);
+      cancelBtn.addClass('d-none');
+      inputField.closest('form').submit();
+    };
+
+    recognition.onerror = function(event) {
+      cancelBtn.addClass('d-none');
+    };
+
+    recognition.onend = function() {
+      voiceBtn.removeClass('d-none');
+      cancelBtn.addClass('d-none');
+    };
+
+    $('#voiceBtn').on('click', function() {
+      recognition.start();
+    });
+
+    $('#cancelBtn').on('click', function() {
+      recognition.abort();
+      voiceBtn.removeClass('d-none');
+      cancelBtn.addClass('d-none');
+    });
+  } else {
+    console.log('A API de Reconhecimento de Fala não é suportada neste navegador.');
+  }
+});
+</script>

@@ -1,0 +1,12 @@
+<%= form_with(url: url, remote: true, method: :get) do |form| %>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="input-group mb-3">
+        <%= text_field_tag :q, params[:q], class: 'form-control', placeholder: placeholder %>
+        <%= form.button :submit, class: 'btn btn-default' do %>
+          <i class="fa fa-search" aria-hidden="true"></i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

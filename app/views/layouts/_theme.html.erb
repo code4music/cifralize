@@ -1,0 +1,39 @@
+<!--
+<button onclick="toggleTheme()" class="btn btn-default">
+  <i id="theme-icon" class="fa fa-moon"></i>
+</button>
+-->
+
+<script>
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    document.cookie = `theme=${theme}; path=/; max-age=${60 * 60 * 24 * 365}`;
+    updateThemeIcon(theme);
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-bs-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+  }
+
+  function updateThemeIcon(theme) {
+    const icon = document.getElementById('theme-icon');
+    if (!icon) return;
+
+    if (theme === 'dark') {
+      icon.classList.remove('fa-moon');
+      icon.classList.add('fa-sun');
+    } else {
+      icon.classList.remove('fa-sun');
+      icon.classList.add('fa-moon');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const match = document.cookie.match(/theme=(dark|light)/);
+    const theme = match ? match[1] : 'light';
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    updateThemeIcon(theme);
+  });
+</script>

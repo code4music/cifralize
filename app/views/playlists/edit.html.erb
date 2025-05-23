@@ -1,0 +1,11 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/playlists">Listas</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Editar Lista</li>
+  </ol>
+</nav>
+
+<%= render "form", playlist: @playlist %>
+
+<br><%= button_to "Excluir Lista", @playlist, method: :delete, class: "btn btn-danger btn-sm" %>

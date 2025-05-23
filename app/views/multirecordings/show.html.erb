@@ -1,0 +1,87 @@
+<script src="https://unpkg.com/wavesurfer.js"></script>
+
+<h1><%= @multirecording.title %></h1>
+<h2>DEBUG: <%= @multirecording.tracks.count %> faixas</h2>
+
+<% @multirecording.tracks.each_with_index do |track, index| %>
+  <div id="track-<%= index %>" class="track-controller mb-3">
+    <h5>Faixa <%= index + 1 %></h5>
+
+    <div id="waveform-<%= index %>"></div>
+
+    <label>Volume:</label>
+    <input type="range" min="0" max="1" value="1" step="0.01" class="volume-slider" data-index="<%= index %>">
+
+    <button class="mute-btn btn btn-secondary btn-sm" data-index="<%= index %>">Mute</button>
+  </div>
+<% end %>
+
+<button id="playAll" class="btn btn-primary">Tocar Tudo</button>
+
+<script>
+  const TRACK_URLS = [
+    <% @multirecording.tracks.each do |track| %>
+      "<%= url_for(track) %>",
+    <% end %>
+  ];
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const playBtn = document.getElementById("playAll");
+    const waves = [];
+    const lastVolumes = []; // Para armazenar o volume antes do mute
+    const isMuted = [];
+
+    TRACK_URLS.forEach((url, index) => {
+      const wave = WaveSurfer.create({
+        container: '#waveform-' + index,
+        waveColor: 'violet',
+        progressColor: 'purple',
+        height: 80,
+        barWidth: 2,
+      });
+
+      wave.load(url);
+      wave.setVolume(1); // Volume inicial
+      waves.push(wave);
+      lastVolumes[index] = 1;  // Valor inicial
+      isMuted[index] = false;
+    });
+
+    playBtn.addEventListener("click", () => {
+      waves.forEach(wave => wave.play());
+    });
+
+    // Volume
+    document.querySelectorAll(".volume-slider").forEach(slider => {
+      slider.addEventListener("input", (e) => {
+        const index = e.target.dataset.index;
+        const volume = parseFloat(e.target.value);
+
+        if (!isMuted[index]) {
+          waves[index].setVolume(volume);
+          lastVolumes[index] = volume;
+        }
+      });
+    });
+
+    // Mute
+    document.querySelectorAll(".mute-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const index = e.target.dataset.index;
+        const wave = waves[index];
+
+        if (isMuted[index]) {
+          // Desmutar
+          wave.setVolume(lastVolumes[index]);
+          btn.textContent = "Mute";
+        } else {
+          // Mutar
+          wave.setVolume(0);
+          btn.textContent = "Desmutar";
+        }
+
+        isMuted[index] = !isMuted[index];
+      });
+    });
+  });
+</script>

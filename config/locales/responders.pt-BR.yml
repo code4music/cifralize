@@ -1,0 +1,10 @@
+pt-BR:
+  create:
+    notice: '%{model} cadastrado(a) com sucesso.'
+    alert: '%{model} não pode ser criado(a).'
+  update:
+    notice: '%{model} atualizado(a) com sucesso.'
+    alert: '%{model} não pode ser atualizado(a).'
+  destroy:
+    notice: '%{model} removido(a) com sucesso.'
+    alert: '%{model} não pode ser removido(a).'

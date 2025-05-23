@@ -1,0 +1,43 @@
+<%= form_with(model: playlist) do |form| %>
+  <%= render "shared/errors", model: playlist %>
+
+  <% if current_user.role == Role.admin %>
+    <div class="form-check mb-3">
+      <%= form.label :verified, "Revisado", class: "form-check-label", for: "verifiedCheck" %>
+      <%= form.check_box :verified, class: "form-check-input", id: "verifiedCheck" %>
+    </div>
+  <% end %>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :visibility, class: "form-label" do %>
+        Visibilidade
+        <i class="fas fa-info-circle ms-1"
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Particular: apenas você pode ver. Pública: visível por todos.">
+        </i>
+      <% end %>
+
+      <%= form.select :visibility, [['Lista Particular', 'private'], ['Lista Pública', 'public'], ['Não Listada', 'unlisted']], {}, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :name, style: "display: block" %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :description, style: "display: block" %>
+      <%= form.text_area :description, class: "form-control", rows: 3 %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

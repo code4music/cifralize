@@ -1,0 +1,12 @@
+pt-BR:
+  app: Cifralize
+  new: "Novo(a) %{model}"
+  edit: "Editar %{model}"
+  show: "Mostrar %{model}"
+  details: "Detalhes"
+  delete: "Excluir %{model}"
+  back: "Voltar"
+  helpers:
+    submit:
+      create: "Criar %{model}"
+      update: "Confirmar as mudanças %{model}"

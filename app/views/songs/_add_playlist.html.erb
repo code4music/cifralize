@@ -1,0 +1,32 @@
+<button type="button" class="btn btn-primary btn-sm float-end me-2" data-bs-toggle="modal" data-bs-target="#addToPlaylistModal">
+  Adicionar à Lista
+</button>
+
+<div class="modal fade" id="addToPlaylistModal" tabindex="-1" aria-labelledby="addToPlaylistModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="addToPlaylistModalLabel">Adicionar à Lista</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <div class="modal-body">
+        <%= form_with url: playlist_songs_path, method: :post do |f| %>
+          <%= hidden_field_tag :song_id, @song.id %>
+          <%= hidden_field_tag :transpose, params[:transpose].to_i %>
+
+          <div class="mb-3">
+            <%= label_tag :playlist_id, "Selecione a playlist", class: "form-label" %>
+            <%= select_tag :playlist_id, options_from_collection_for_select(current_user.playlists, :id, :name), prompt: "Escolha uma playlist", class: "form-select" %>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <%= submit_tag "Adicionar", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

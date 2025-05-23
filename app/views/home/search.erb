@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <h3>Resultados para: "<%= params[:q] %>"</h3>
+
+  <% if @songs.any? %>
+    <h4 class="mt-4">Músicas</h4>
+    <%= paginate @songs %>
+    <ul class="list-group mb-4">
+      <% @songs.each do |song| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <%= link_to song.title, home_song_path(song.artist.slug, song.slug) %>
+          <%= link_to song.artist.name, home_artist_path(song.artist.slug), class: 'text-muted' %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if @playlists.any? %>
+    <h4>Playlists</h4>
+    <ul class="list-group">
+      <% @playlists.each do |playlist| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <%= link_to "#{playlist.name} (#{playlist.songs.count})", playlist_path(playlist) %>
+          <span class="text-muted"><%= playlist.user.name if playlist.user %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if @songs.empty? && @playlists.empty? %>
+    <div class="alert alert-warning mt-4">Nenhum resultado encontrado.</div>
+  <% end %>
+</div>
