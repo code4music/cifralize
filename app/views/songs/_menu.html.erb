@@ -12,20 +12,22 @@
       <div class="modal-body d-grid gap-3">
         <%= link_to edit_song_path(@song.uuid), class: "btn btn-lg btn-secondary" do %>
           <i class="fas fa-edit me-2"></i> Editar Música
+        <% end if @song.user == current_user %>
+        <% if current_user %>
+          <button class="btn btn-lg btn-success" id="showPlaylistFormBtn">
+            <i class="fas fa-plus me-2"></i> Adicionar à Lista
+          </button>
+          <div id="playlistForm" class="d-none">
+            <%= form_with url: playlist_songs_path, method: :post do %>
+              <%= hidden_field_tag :song_id, @song.id %>
+              <%= hidden_field_tag :transpose, params[:transpose].to_i %>
+              <div class="mb-3">
+                <%= select_tag :playlist_id, options_from_collection_for_select(current_user.playlists, :id, :name), prompt: "Escolha uma playlist", class: "form-select" %>
+              </div>
+              <%= submit_tag "Adicionar", class: "btn btn-success float-end" %>
+            <% end %>
+          </div>
         <% end %>
-        <button class="btn btn-lg btn-success" id="showPlaylistFormBtn">
-          <i class="fas fa-plus me-2"></i> Adicionar à Lista
-        </button>
-        <div id="playlistForm" class="d-none">
-          <%= form_with url: playlist_songs_path, method: :post do %>
-            <%= hidden_field_tag :song_id, @song.id %>
-            <%= hidden_field_tag :transpose, params[:transpose].to_i %>
-            <div class="mb-3">
-              <%= select_tag :playlist_id, options_from_collection_for_select(current_user.playlists, :id, :name), prompt: "Escolha uma playlist", class: "form-select" %>
-            </div>
-            <%= submit_tag "Adicionar", class: "btn btn-success float-end" %>
-          <% end %>
-        </div>
 
         <button class="btn btn-lg btn-dark" onclick="wakelock()">
           <i class="fas fa-lightbulb me-2"></i> Manter Tela Ligada

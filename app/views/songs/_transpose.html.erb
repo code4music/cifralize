@@ -10,7 +10,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
       <div class="modal-body">
-        <%= form_with url: song_path(@song), method: :get, local: true do %>
+        <%= form_with url: request.fullpath, method: :get, local: true do %>
           <div class="mb-3">
             <%= label_tag :transpose, "Selecione o tom", class: "form-label" %>
             <%= select_tag :transpose, options_for_select([['C', 0], ['C#', 1], ['D', 2], ['D#', 3], ['E', 4], ['F', 5], ['F#', 6], ['G', 7], ['G#', 8], ['A', 9], ['A#', 10], ['B', 11]], params[:transpose].to_i), class: "form-select" %>
