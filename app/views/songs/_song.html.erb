@@ -1,14 +1,10 @@
 <h1><%= @song.title %></h1>
 <p><strong><%= @song.artist.name %></strong></p>
 
-<% if current_user&.role == Role.admin || current_user == @song.user %>
-  <%= link_to "Editar Cifra", edit_song_path(@song.uuid), class: "btn btn-warning btn-sm float-end me-2" %>
-<% end %>
-
-<%= render "songs/add_playlist" if current_user %>
 <%= render "songs/transpose" %>
-<%= render "shared/wakelock" %>
 
 <div class="chords-display" style="white-space: pre-wrap; font-family: monospace;">
   <%= raw format_chords(@transposed_chords.presence || @song.chords) %>
 </div>
+
+<%= render "songs/menu" %>

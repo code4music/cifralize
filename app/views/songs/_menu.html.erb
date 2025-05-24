@@ -1,0 +1,49 @@
+<button type="button" class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle shadow" data-bs-toggle="modal" data-bs-target="#menuModal" style="width: 60px; height: 60px;">
+  <i class="fas fa-bars"></i>
+</button>
+
+<div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="menuModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title w-100" id="menuModalLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body d-grid gap-3">
+        <%= link_to edit_song_path(@song.uuid), class: "btn btn-lg btn-secondary" do %>
+          <i class="fas fa-edit me-2"></i> Editar Música
+        <% end %>
+        <button class="btn btn-lg btn-success" id="showPlaylistFormBtn">
+          <i class="fas fa-plus me-2"></i> Adicionar à Lista
+        </button>
+        <div id="playlistForm" class="d-none">
+          <%= form_with url: playlist_songs_path, method: :post do %>
+            <%= hidden_field_tag :song_id, @song.id %>
+            <%= hidden_field_tag :transpose, params[:transpose].to_i %>
+            <div class="mb-3">
+              <%= select_tag :playlist_id, options_from_collection_for_select(current_user.playlists, :id, :name), prompt: "Escolha uma playlist", class: "form-select" %>
+            </div>
+            <%= submit_tag "Adicionar", class: "btn btn-success float-end" %>
+          <% end %>
+        </div>
+
+        <button class="btn btn-lg btn-dark" onclick="wakelock()">
+          <i class="fas fa-lightbulb me-2"></i> Manter Tela Ligada
+        </button>
+        <%= render "shared/wakelock" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const showFormBtn = document.getElementById("showPlaylistFormBtn");
+    const playlistForm = document.getElementById("playlistForm");
+
+    showFormBtn.addEventListener("click", function () {
+      playlistForm.classList.remove("d-none");
+      playlistForm.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+</script>
