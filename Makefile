@@ -53,6 +53,7 @@ production:
 	git pull
 	docker compose --env-file .env -f build/docker-compose-production.yaml stop
 	docker compose --env-file .env -f build/docker-compose-production.yaml build
+	docker compose --env-file .env -f build/docker-compose-production.yaml run app rake assets:clobber
 	docker compose --env-file .env -f build/docker-compose-production.yaml run app bundle exec rails assets:precompile
 	docker compose --env-file .env -f build/docker-compose-production.yaml run app rails db:migrate
 	docker compose --env-file .env -f build/docker-compose-production.yaml up -d
