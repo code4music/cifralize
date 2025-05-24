@@ -4,7 +4,7 @@
 <%= render "songs/transpose" %>
 
 <div class="chords-display" style="white-space: pre-wrap; font-family: monospace;">
-  <%= raw format_chords(@transposed_chords.presence || @song.chords) %>
+<%= raw format_chords(@transposed_chords.presence || @song.chords) %>
 </div>
 
 <%= render "songs/menu" %>

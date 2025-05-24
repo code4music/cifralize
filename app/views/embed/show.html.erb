@@ -5,6 +5,6 @@
   <h2><%= @song.artist.name %></h2>
 <% end %>
 
-<div class="chords-display" style="white-space: pre-wrap; font-family: monospace;">
-  <%= raw format_chords(@transposed_chords.presence || @song.chords) %>
+<div class="chords-display" style="font-family: monospace">
+<%= raw format_chords(@transposed_chords.presence || @song.chords) %>
 </div>

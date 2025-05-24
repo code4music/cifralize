@@ -29,8 +29,8 @@
 
     <% transposed_chords = ChordTransposerHelper.transpose(ps.song.chords, ps.transpose) %>
 
-    <div class="chords-display" style="white-space: pre-wrap; font-family: monospace;">
-      <%= raw format_chords(transposed_chords) %>
+    <div class="chords-display" style="font-family: monospace">
+    <%= raw format_chords(transposed_chords) %>
     </div>
 
     <p>Tom: <%= ps.transpose %></p>
