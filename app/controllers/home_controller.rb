@@ -55,5 +55,14 @@ class HomeController < ApplicationController
     @playlist.increment!(:views_count)
   end
 
+  def recordings
+    @recordings = Recording.where(visibility: 'public').order(created_at: :desc).page(params[:page]).per(20)
+  end
+
+  def recording
+    @recording = Recording.find_by(uuid: params[:uuid])
+    @recording.increment!(:views_count)
+  end
+
   def tuner; end
 end

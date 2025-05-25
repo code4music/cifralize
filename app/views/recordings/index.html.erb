@@ -7,12 +7,19 @@
 
 <%= link_to "Nova Gravação", new_recording_path, class: 'btn btn-primary float-end' %><br><br>
 
-<h2>Minhas gravações</h2>
+<% if @recordings.empty? %>
+  <div class="alert alert-secondary mt-4">
+    Você ainda possue nenhuma gravação.<br><br>
+    <%= link_to "Clique aqui", new_recording_path %>
+    e registre sua primeira gravação agora mesmo!
+  </div>
+<% end %>
 
 <%= paginate @recordings %>
 
 <% @recordings.each do |rec| %>
-  <p><strong><%= rec.title %></strong></p>
+  <h3><strong><%= rec.title %></strong></h3>
+  <p><strong><%= rec.visibility %></strong></p>
   <% if rec.audio_file.attached? %>
     <audio controls src="<%= url_for(rec.audio_file) %>"></audio>
   <% else %>

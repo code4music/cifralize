@@ -9,10 +9,15 @@
 
 <%= link_to "Nova Gravação", new_recording_path, class: 'btn btn-primary float-end' %><br><br>
 
-<h2>Gravações Salvas</h2>
+<h2>Gravações Públicas</h2>
 
 <% @recordings.each do |rec| %>
-  <p><strong><%= rec.title %></strong></p>
+  <p>
+    <strong><%= rec.title %></strong>
+    <%= link_to home_recording_path(rec.uuid), target: "_blank", class: "btn btn-sm btn-outline-primary" do %>
+      <i class="fas fa-share-square"></i>
+    <% end %>
+  </p>
   <% if rec.audio_file.attached? %>
     <audio controls src="<%= url_for(rec.audio_file) %>"></audio>
   <% end %>

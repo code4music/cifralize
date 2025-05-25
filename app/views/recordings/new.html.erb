@@ -5,28 +5,44 @@
   </ol>
 </nav>
 
-<h2>Gravar Áudio</h2>
+<h2>Nova Gravação</h2>
 
-<button id="startBtn" class="btn btn-primary">
-  <i class="fas fa-play-circle"></i> Gravar
-</button>
-<button id="stopBtn" class="btn btn-danger" disabled>
-  <i class="fas fa-stop-circle"></i> Parar
-</button>
+<div class="btn-group mt-5 mb-5" role="group">
+  <button id="chooseRecord" class="btn btn-outline-primary">🎤 Gravar</button>
+  <button id="chooseUpload" class="btn btn-outline-secondary">📁 Fazer Upload</button>
+</div>
 
-<br><br>
+<div id="recordSection" style="display: none;">
+  <button id="startBtn" class="btn btn-primary">
+    <i class="fas fa-play-circle"></i> Iniciar Gravação
+  </button>
+  <button id="stopBtn" class="btn btn-danger" disabled>
+    <i class="fas fa-stop-circle"></i> Parar
+  </button>
+</div>
+
+<div id="uploadSection" style="display: none;">
+  <label for="audioFileInput" class="form-label">Selecione um arquivo de áudio</label>
+  <input type="file" class="form-control" id="audioFileInput" accept="audio/*,video/mp4">
+</div>
 
 <div id="formContainer" style="display: none;">
-  <audio id="player" controls></audio>
+  <audio id="player" controls class="mt-3 mb-3 w-100"></audio>
 
   <%= form_with model: Recording.new, local: true, html: { multipart: true } do |f| %>
-    <div class="mb-3 mt-3">
+    <div class="mb-3">
       <%= f.label :title, "Nome da gravação" %>
       <%= f.text_field :title, class: "form-control", required: true %>
     </div>
 
-    <%= f.file_field :audio_file, id: "audioFileInput", style: "display: none;" %>
-    <%= f.submit "Salvar Gravação", class: "btn btn-success", id: "saveBtn" %>
+    <div class="mb-3">
+      <%= f.label :visibility, "Visibilidade" %>
+      <%= f.select :visibility, [['Particular', 'private'], ['Pública', 'public'], ['Não Listada', 'unlisted']], {}, class: "form-select" %>
+    </div>
+
+    <%= f.file_field :audio_file, style: "display: none;" %>
+
+    <%= f.submit "Salvar Gravação", class: "btn btn-success" %>
   <% end %>
 </div>
 
@@ -37,8 +53,27 @@
   const startBtn = document.getElementById('startBtn');
   const stopBtn = document.getElementById('stopBtn');
   const player = document.getElementById('player');
+  const fileField = document.querySelector('input[type="file"][name="recording[audio_file]"]');
   const audioFileInput = document.getElementById('audioFileInput');
+
   const formContainer = document.getElementById('formContainer');
+  const recordSection = document.getElementById('recordSection');
+  const uploadSection = document.getElementById('uploadSection');
+
+  const chooseRecord = document.getElementById('chooseRecord');
+  const chooseUpload = document.getElementById('chooseUpload');
+
+  chooseRecord.onclick = () => {
+    recordSection.style.display = 'block';
+    uploadSection.style.display = 'none';
+    formContainer.style.display = 'none';
+  };
+
+  chooseUpload.onclick = () => {
+    uploadSection.style.display = 'block';
+    recordSection.style.display = 'none';
+    formContainer.style.display = 'none';
+  };
 
   startBtn.onclick = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -57,7 +92,7 @@
 
       const dataTransfer = new DataTransfer();
       dataTransfer.items.add(file);
-      audioFileInput.files = dataTransfer.files;
+      fileField.files = dataTransfer.files;
 
       formContainer.style.display = 'block';
     };
@@ -72,4 +107,17 @@
     startBtn.disabled = false;
     stopBtn.disabled = true;
   };
+
+  audioFileInput.addEventListener('change', event => {
+    const file = event.target.files[0];
+    if (file) {
+      player.src = URL.createObjectURL(file);
+
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      fileField.files = dataTransfer.files;
+
+      formContainer.style.display = 'block';
+    }
+  });
 </script>

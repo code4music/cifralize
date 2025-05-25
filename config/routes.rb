@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/c/playlists', to: 'home#playlists', as: :home_playlists
   get '/c/playlists/:uuid', to: 'home#playlist', as: :home_playlist
   get '/c/recordings', to: 'home#recordings', as: :home_recordings
-  get '/c/recordings/:uuid', to: 'home#recordings', as: :home_recording
+  get '/c/recordings/:uuid', to: 'home#recording', as: :home_recording
   get '/embed/:artist/:song', to: 'embed#show', as: :embed_song
   get '/c/songs/cifraclub', to: 'songs#cifraclub_scraper', as: :cifraclub_song_scraper
   get '/c/artists/cifraclub', to: 'artists#cifraclub_scraper', as: :cifraclub_artist_scraper

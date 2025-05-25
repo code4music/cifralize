@@ -1,0 +1,74 @@
+<script src="https://unpkg.com/wavesurfer.js"></script>
+
+<div id="waveform"></div>
+
+<div class="d-flex align-items-center justify-content-between mt-2">
+  <button id="playBtn" class="btn btn-primary">Play</button>
+  <input
+    id="progressBar"
+    type="range"
+    min="0"
+    max="100"
+    value="0"
+    style="flex-grow: 1; margin: 0 15px;"
+  />
+  <button id="muteBtn" class="btn btn-secondary">Mute</button>
+  <input
+    id="volumeControl"
+    type="range"
+    min="0"
+    max="1"
+    step="0.01"
+    value="1"
+    style="width: 100px;"
+  />
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const wavesurfer = WaveSurfer.create({
+    container: '#waveform',
+    waveColor: '#ddd',
+    progressColor: '#007bff',
+    height: 80,
+    responsive: true
+  });
+
+  wavesurfer.load('<%= url_for(@recording.audio_file) %>');
+
+  const playBtn = document.getElementById('playBtn');
+  const progressBar = document.getElementById('progressBar');
+  const muteBtn = document.getElementById('muteBtn');
+  const volumeControl = document.getElementById('volumeControl');
+
+  // Play/Pause toggle
+  playBtn.addEventListener('click', () => {
+    wavesurfer.playPause();
+    playBtn.textContent = wavesurfer.isPlaying() ? 'Pause' : 'Play';
+  });
+
+  // Atualiza a barra de progresso conforme o áudio toca
+  wavesurfer.on('audioprocess', () => {
+    if (!progressBar.max) {
+      progressBar.max = wavesurfer.getDuration();
+    }
+    progressBar.value = wavesurfer.getCurrentTime();
+  });
+
+  // Atualiza o playhead se o usuário mudar a barra de progresso
+  progressBar.addEventListener('input', () => {
+    wavesurfer.seekTo(progressBar.value / wavesurfer.getDuration());
+  });
+
+  // Botão mute/unmute
+  muteBtn.addEventListener('click', () => {
+    wavesurfer.toggleMute();
+    muteBtn.textContent = wavesurfer.getMute() ? 'Unmute' : 'Mute';
+  });
+
+  // Controle de volume
+  volumeControl.addEventListener('input', () => {
+    wavesurfer.setVolume(volumeControl.value);
+  });
+});
+</script>

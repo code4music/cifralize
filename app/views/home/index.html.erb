@@ -18,7 +18,7 @@
             <i class="fas fa-check-circle text-primary"></i>
           <% end %>
         </h6>
-        <small class="text-muted"><%= song.artist.name %></small>
+        <%= link_to song.artist.name, home_artist_path(song.artist.slug), class: 'text-sm text-muted text-decoration-none' %>
       </div>
     </div>
   <% end %>
