@@ -16,7 +16,7 @@
     <tr>
       <td><%= playlist.name %></td>
       <td>
-        <%= link_to "Músicas (#{playlist.songs.count})", playlist_path(playlist.uuid), class: 'btn btn-sm btn-outline-primary' %>
+        <%= link_to "Músicas (#{playlist.songs.count})", home_playlist_path(playlist.uuid), class: 'btn btn-sm btn-outline-primary' %>
       </td>
     </tr>
   <% end %>

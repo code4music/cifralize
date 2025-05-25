@@ -28,7 +28,6 @@
     <p><%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %></p>
 
     <% transposed_chords = ChordTransposerHelper.transpose(ps.song.chords, ps.transpose) %>
-
     <div class="chords-display" style="white-space: pre-wrap; font-family: monospace;"><%= raw format_chords(transposed_chords) %></div>
 
     <!--
