@@ -1,0 +1,28 @@
+<% content_for :title, "#{t('app')} | #{@genre.name}" %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="<%= home_genres_path %>">Gêneros</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @genre.name %></li>
+  </ol>
+</nav>
+
+<%= paginate @songs %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Artista</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @songs.each do |song| %>
+      <tr>
+        <td><%= link_to song.title, home_song_path(song.artist.slug, song.slug) %></td>
+        <td><%= link_to song.artist.name, home_artist_path(song.artist.slug), class: 'text-muted text-decoration-none' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

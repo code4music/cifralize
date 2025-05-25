@@ -19,7 +19,7 @@
   <tbody>
     <% @genres.each do |genre| %>
       <tr>
-        <td><%= link_to genre.name, home_genre_path(genre) %></td>
+        <td><%= link_to genre.name, home_genre_path(genre.slug) %></td>
         <td><%= genre.songs.count %></td>
       </tr>
     <% end %>

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/c/songs', to: 'home#songs', as: :home_songs
   get '/c/artists', to: 'home#artists', as: :home_artists
   get '/c/genres', to: 'home#genres', as: :home_genres
-  get '/c/genres/:slug', to: 'home#genres', as: :home_genre
+  get '/c/genres/:slug', to: 'home#genre', as: :home_genre
   get '/c/playlists', to: 'home#playlists', as: :home_playlists
   get '/c/playlists/:uuid', to: 'home#playlist', as: :home_playlist
   get '/c/recordings', to: 'home#recordings', as: :home_recordings

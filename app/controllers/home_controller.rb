@@ -20,6 +20,11 @@ class HomeController < ApplicationController
     @genres = Genre.order(name: :asc)
   end
 
+  def genre
+    @genre = Genre.find_by!(slug: params[:slug])
+    @songs = @genre.songs.where(visibility: 'public').order(title: :asc).page(params[:page]).per(20)
+  end
+
   def artists
     @artists = Artist.order(name: :asc).page(params[:page]).per(20)
   end
