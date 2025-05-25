@@ -1,3 +1,5 @@
+<% content_for :title, "#{t('app')} | #{@playlist.name}" %>
+
 <h1><%= @playlist.name %></h1>
 
 <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#playlistModal-<%= @playlist.id %>">

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= @html_title || "#{t('app')}" %></title>
-    <%= favicon_link_tag asset_path('favicon.png') %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title><%= content_for?(:title) ? yield(:title) : t('app') %></title>
+    <%= favicon_link_tag asset_path('favicon.png') %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag 'bootstrap/bootstrap.min.css', 'data-turbo-track': 'reload' %>

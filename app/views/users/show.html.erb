@@ -1,3 +1,5 @@
+<% content_for :title, "#{t('app')} | #{@user.name}" %>
+
 <h1>Página de perfil do <%= @user.name %></h1>
 <%= link_to 'Voltar', :back, class: 'card-link' %><br><br>
 

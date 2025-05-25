@@ -1,10 +1,12 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "#{t('app')} | #{@genre.name}" %>
 
-<%= render @genre %>
-
-<div>
-  <%= link_to "Edit this genre", edit_genre_path(@genre) %> |
-  <%= link_to "Back to genres", genres_path %>
-
-  <%= button_to "Destroy this genre", @genre, method: :delete %>
+<div id="<%= dom_id @genre %>">
+  <p>
+    <strong>Nome:</strong>
+    <%= @genre.name %>
+  </p>
 </div>
+
+
+<%= link_to "Editar", edit_genre_path(@genre) %> |
+<%= button_to "Destroy this genre", @genre, method: :delete %>

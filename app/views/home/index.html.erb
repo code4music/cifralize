@@ -1,3 +1,5 @@
+<% content_for :title, "#{t('app')} - #{t('slogan')}" %>
+
 <% if current_user %>
   <h3 class="mt-5 mb-4">
     <span class="fw-bold">Olá,</span> <%= current_user.name %>

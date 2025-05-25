@@ -1,10 +1,10 @@
-<h1>Editing genre</h1>
+<% content_for :title, "#{t('app')} | Editar Gênero" %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Editar Gênero</li>
+  </ol>
+</nav>
 
 <%= render "form", genre: @genre %>
-
-<br>
-
-<div>
-  <%= link_to "Show this genre", @genre %> |
-  <%= link_to "Back to genres", genres_path %>
-</div>

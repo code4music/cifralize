@@ -1,5 +1,6 @@
 pt-BR:
   app: Cifralize
+  slogan: "Toque, crie e organize sem limites e sem anúncios"
   new: "Novo(a) %{model}"
   edit: "Editar %{model}"
   show: "Mostrar %{model}"

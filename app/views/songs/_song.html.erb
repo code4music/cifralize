@@ -1,5 +1,6 @@
 <h1><%= @song.title %></h1>
-<p><strong><%= @song.artist.name %></strong></p>
+<p><%= link_to @song.artist.name, home_artist_path(@song.artist.slug), class: 'text-decoration-none text-body' %></p>
+
 
 <%= render "songs/transpose" %>
 
