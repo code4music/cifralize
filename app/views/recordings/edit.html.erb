@@ -35,7 +35,7 @@
 
   <div class="mb-3">
     <%= form.label :song_id, "Selecione a música", style: "display: block" %>
-    <%= form.select :song_id, options_for_select(Song.where(visibility: 'public').or(Song.where(user: current_user)).map { |u| [u.title, u.id] }, @recording.song_id), { prompt: '' }, class: "form-select" %>
+    <%= form.select :song_id, options_for_select(Song.where(visibility: 'public').or(Song.where(user: current_user)).map { |u| ["#{u.title} - #{u.artist.name}", u.id] }, @recording.song_id), { prompt: '' }, class: "form-select" %>
   </div>
 
   <div>
