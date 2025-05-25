@@ -23,18 +23,18 @@
 </div>
 
 <% @playlist_songs.each do |ps| %>
-  <div>
+  <div class="mt-5">
     <h3><%= ps.song.title %></h3>
+    <p><%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %></p>
 
     <% transposed_chords = ChordTransposerHelper.transpose(ps.song.chords, ps.transpose) %>
 
-    <div class="chords-display" style="font-family: monospace">
-      <%= raw format_chords(transposed_chords) %>
-    </div>
+    <div class="chords-display" style="white-space: pre-wrap; font-family: monospace;"><%= raw format_chords(transposed_chords) %></div>
 
+    <!--
     <p>Tom: <%= ps.transpose %></p>
-
     <%= link_to "+1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose + 1), method: :patch %>
     <%= link_to "-1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose - 1), method: :patch %>
+    -->
   </div>
 <% end %>
