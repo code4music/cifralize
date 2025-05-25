@@ -4,6 +4,7 @@ class Song < ApplicationRecord
   belongs_to :user
   belongs_to :artist
   belongs_to :genre, optional: true
+  has_many :recordings, dependent: :destroy
   validates :title, presence: true
   before_create :set_uuid, if: -> { uuid.nil? }
   before_validation :generate_slug, on: %i[create update]

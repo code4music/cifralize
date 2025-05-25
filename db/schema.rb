@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_21_172555) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_25_015548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -104,6 +104,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_21_172555) do
     t.integer "views_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "song_id"
+    t.index ["song_id"], name: "index_recordings_on_song_id"
     t.index ["user_id"], name: "index_recordings_on_user_id"
   end
 
@@ -169,6 +171,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_21_172555) do
   add_foreign_key "playlist_songs", "playlists"
   add_foreign_key "playlist_songs", "songs"
   add_foreign_key "playlists", "users"
+  add_foreign_key "recordings", "songs"
   add_foreign_key "recordings", "users"
   add_foreign_key "songs", "artists"
   add_foreign_key "songs", "genres"

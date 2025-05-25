@@ -1,0 +1,47 @@
+<% content_for :title, "#{t('app')} | Editar Gravação" %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/playlists">Gravações</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Editar Gravação</li>
+  </ol>
+</nav>
+
+<%= form_with(model: @recording) do |form| %>
+  <%= render "shared/errors", model: @recording %>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :visibility, class: "form-label" do %>
+        Visibilidade
+        <i class="fas fa-info-circle ms-1"
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Particular: apenas você pode ver. Pública: visível por todos.">
+        </i>
+      <% end %>
+
+      <%= form.select :visibility, [['Particular', 'private'], ['Pública', 'public'], ['Não Listada', 'unlisted']], {}, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :title, style: "display: block" %>
+      <%= form.text_field :title, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :song_id, "Selecione a música", style: "display: block" %>
+    <%= form.select :song_id, options_for_select(Song.where(visibility: 'public').or(Song.where(user: current_user)).map { |u| [u.title, u.id] }, @recording.song_id), { prompt: '' }, class: "form-select" %>
+  </div>
+
+  <div>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+
+<br><%= button_to "Excluir Gravação", @recording, method: :delete, class: "btn btn-danger btn-sm" %>

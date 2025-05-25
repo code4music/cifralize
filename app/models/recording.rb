@@ -1,5 +1,6 @@
 class Recording < ApplicationRecord
   belongs_to :user
+  belongs_to :song, optional: true
   has_one_attached :audio_file
 
   before_create :set_uuid, if: -> { uuid.nil? }

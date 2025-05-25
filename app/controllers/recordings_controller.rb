@@ -11,7 +11,9 @@ class RecordingsController < ApplicationController
     @recordings = @recordings.order(created_at: :desc).page(params[:page]).per(20)
   end
 
-  def show; end
+  def show
+    @song = @recording.song if @recording.song
+  end
 
   def new
     @recording = Recording.new
@@ -32,6 +34,18 @@ class RecordingsController < ApplicationController
     end
   end
 
+  def update
+    respond_to do |format|
+      if @recording.update(recording_params)
+        format.html { redirect_to recordings_path, notice: 'Gravação atualizada com sucesso.' }
+        format.json { render :show, status: :ok, location: @recording }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @recording.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     @recording.destroy
 
@@ -47,6 +61,6 @@ class RecordingsController < ApplicationController
   end
 
   def recording_params
-    params.require(:recording).permit(:audio_file, :title, :description, :visibility, :likes_count, :views_count)
+    params.require(:recording).permit(:audio_file, :title, :description, :visibility, :song_id, :likes_count, :views_count)
   end
 end

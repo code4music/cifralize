@@ -24,6 +24,8 @@
   />
 </div>
 
+<br><br><%= render "songs/song" if @recording.song %>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const wavesurfer = WaveSurfer.create({

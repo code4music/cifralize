@@ -62,6 +62,7 @@ class HomeController < ApplicationController
   def recording
     @recording = Recording.find_by(uuid: params[:uuid])
     @recording.increment!(:views_count)
+    @song = @recording.song if @recording.song
   end
 
   def tuner; end

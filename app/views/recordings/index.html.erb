@@ -18,8 +18,12 @@
 <%= paginate @recordings %>
 
 <% @recordings.each do |rec| %>
-  <h3><strong><%= rec.title %></strong></h3>
-  <p><strong><%= rec.visibility %></strong></p>
+  <%= link_to rec.title, recording_path(rec), class: 'h3' %>
+  <p>
+    <strong><%= rec.visibility %></strong>
+    <%= link_to "Editar", edit_recording_path(rec.uuid) %><br>
+    <%= rec.song.title if rec.song %>
+  </p>
   <% if rec.audio_file.attached? %>
     <audio controls src="<%= url_for(rec.audio_file) %>"></audio>
   <% else %>
