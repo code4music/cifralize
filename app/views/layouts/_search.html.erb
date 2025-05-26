@@ -1,16 +1,23 @@
-<%= form_with url: search_path, method: :get, html: { class: "d-flex mx-auto w-100 w-md-50", role: "search" } do %>
-  <button class="btn btn-outline-primary btn-lg d-inline d-md-none me-3" type="button" data-bs-toggle="modal" data-bs-target="#appsModal">
-    <i class="fas fa-th-large"></i>
-  </button>
-  <div class="input-group">
-    <%= text_field_tag :q, params[:q], id: 'search-input', class: "form-control", placeholder: "O que você quer tocar hoje?", aria: { label: "Search" } %>
-    <div class="input-group-append d-flex gap-1">
-      <button class="btn btn-outline-primary" type="button" id="voiceBtn" style="font-size: 26px">
-        <i class="fa fa-microphone" aria-hidden="true"></i>
-      </button>
-      <button class="btn btn-danger d-none" type="button" id="cancelBtn" style="font-size: 26px">
-        <i class="far fa-stop-circle"></i>
-      </button>
+<%= form_with url: search_path, method: :get, html: { class: "d-flex flex-column mx-auto w-100 w-md-50", role: "search" } do %>
+  <div class="d-flex align-items-center mb-2">
+    <button class="btn btn-outline-primary btn-lg d-inline d-md-none me-3" type="button" data-bs-toggle="modal" data-bs-target="#appsModal">
+      <i class="fas fa-th-large"></i>
+    </button>
+    <div class="w-100">
+      <div class="input-group">
+        <%= text_field_tag :q, params[:q], id: 'search-input', class: "form-control", placeholder: "O que você quer tocar hoje?", aria: { label: "Search" }, autofocus: true %>
+        <div class="input-group-append d-flex gap-1">
+          <button class="btn btn-outline-primary" type="button" id="voiceBtn" style="font-size: 26px">
+            <i class="fa fa-microphone" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-danger d-none" type="button" id="cancelBtn" style="font-size: 26px">
+            <i class="far fa-stop-circle"></i>
+          </button>
+        </div>
+      </div>
+      <div class="form-text d-none d-lg-block mt-1">
+        <i class="fas fa-keyboard me-1"></i> Pressione <kbd>/</kbd> para buscar
+      </div>
     </div>
   </div>
 <% end %>
@@ -66,4 +73,18 @@ $(document).ready(function() {
     console.log('A API de Reconhecimento de Fala não é suportada neste navegador.');
   }
 });
+</script>
+
+<script>
+  document.addEventListener('keydown', function(event) {
+    if (
+      event.key === '/' &&
+      !event.target.matches('input, textarea') &&
+      !event.ctrlKey && !event.metaKey && !event.altKey
+    ) {
+      event.preventDefault();
+      const input = document.getElementById('search-input');
+      if (input) input.focus();
+    }
+  });
 </script>

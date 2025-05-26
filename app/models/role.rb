@@ -7,11 +7,11 @@ class Role < ApplicationRecord
     Role.find_by_name('Admin')
   end
 
-  def self.gerente
+  def self.manager
     Role.find_by_name('Gerente')
   end
 
-  def self.usuario
+  def self.user
     Role.find_by_name('Usuário')
   end
 end

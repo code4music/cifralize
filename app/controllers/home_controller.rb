@@ -10,7 +10,7 @@ class HomeController < ApplicationController
 
   def search
     query = params[:q].to_s.strip
-    @songs = Song.joins(:artist).where(visibility: 'public').where("songs.title ILIKE :q OR artists.name ILIKE :q", q: "%#{query}%").page(params[:page]).per(20)
+    @songs = Song.joins(:artist).where(visibility: 'public').where("songs.title ILIKE :q OR songs.chords ILIKE :q OR artists.name ILIKE :q", q: "%#{query}%").page(params[:page]).per(20)
     @playlists = Playlist.where(visibility: 'public').where('name ILIKE ?', "%#{params[:q]}%").page(params[:page]).per(20)
   end
 

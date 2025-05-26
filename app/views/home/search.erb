@@ -8,9 +8,20 @@
     <%= paginate @songs %>
     <ul class="list-group mb-4">
       <% @songs.each do |song| %>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <%= link_to song.title, home_song_path(song.artist.slug, song.slug) %>
-          <%= link_to song.artist.name, home_artist_path(song.artist.slug), class: 'text-muted' %>
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between align-items-center">
+            <%= link_to song.title, home_song_path(song.artist.slug, song.slug) %>
+            <%= link_to song.artist.name, home_artist_path(song.artist.slug), class: 'text-muted' %>
+          </div>
+
+          <% if song.chords.present? && params[:q].present? %>
+            <% match = song.chords[/.*#{Regexp.escape(params[:q])}.*/i] %>
+            <% if match %>
+              <div class="mt-2 text-muted small" style="white-space: pre-wrap; font-family: monospace;">
+                <%= highlight(match.truncate(100), params[:q]) %>
+              </div>
+            <% end %>
+          <% end %>
         </li>
       <% end %>
     </ul>

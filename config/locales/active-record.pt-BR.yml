@@ -14,6 +14,7 @@ pt-BR:
         phone: Telefone de contato
         password: Senha
         password_confirmation: Confirmação da senha
+        current_password: Senha atual
       artist:
         name: Nome do artista
       genre:
