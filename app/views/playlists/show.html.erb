@@ -24,16 +24,26 @@
 
 <% @playlist_songs.each do |ps| %>
   <div class="mt-5">
-    <h3><%= ps.song.title %></h3>
-    <p><%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %></p>
+    <span class="h3"><%= ps.song.title %></span>
+    <div class="btn-group mb-2" role="group">
+      <%= link_to playlist_songs_move_up_path(ps.playlist, ps), class: 'btn btn-outline-secondary btn-sm ms-3', method: :get do %>
+        <i class="fas fa-arrow-up"></i>
+      <% end %>
+      <%= link_to playlist_songs_move_down_path(ps.playlist, ps), class: 'btn btn-outline-secondary btn-sm', method: :get do %>
+        <i class="fas fa-arrow-down"></i>
+      <% end %>
+    </div>
+    <br>
+    <%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %>
 
     <% transposed_chords = ChordTransposerHelper.transpose(ps.song.chords, ps.transpose) %>
-    <div class="chords-display" style="white-space: pre-wrap; font-family: monospace;"><%= raw format_chords(transposed_chords) %></div>
+    <div class="chords-display mt-3" style="white-space: pre-wrap; font-family: monospace;"><%= raw format_chords(transposed_chords) %></div>
 
     <!--
     <p>Tom: <%= ps.transpose %></p>
     <%= link_to "+1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose + 1), method: :patch %>
     <%= link_to "-1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose - 1), method: :patch %>
     -->
+    <br><br><hr><br>
   </div>
 <% end %>

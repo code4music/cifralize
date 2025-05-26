@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class PlaylistSongsController < ApplicationController
-  before_action :set_playlist_song, only: %i[show edit update destroy]
+  before_action :set_playlist
+  before_action :set_playlist_song, only: %i[move_up move_down update destroy]
 
   def create
     playlist_id = params[:playlist_id]
@@ -35,13 +36,23 @@ class PlaylistSongsController < ApplicationController
     end
   end
 
-  private
-
-  def set_playlist_song
-    @playlist_song = PlaylistSong.find(params[:id])
+  def move_up
+    @playlist_song.move_up
+    redirect_back fallback_location: root_path
   end
 
-  def playlist_song_params
-    params.require(:playlist_song).permit(:playlist_id, :song_id, :transpose)
+  def move_down
+    @playlist_song.move_down
+    redirect_back fallback_location: root_path
+  end
+
+  private
+
+  def set_playlist
+    @playlist = Playlist.find_by(uuid: params[:playlist_id])
+  end
+
+  def set_playlist_song
+    @playlist_song = @playlist.playlist_songs.find(params[:id])
   end
 end

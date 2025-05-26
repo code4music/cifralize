@@ -51,7 +51,7 @@ class HomeController < ApplicationController
 
   def playlist
     @playlist = Playlist.find_by(uuid: params[:uuid])
-    @playlist_songs = @playlist.playlist_songs.includes(:song)
+    @playlist_songs = @playlist.playlist_songs.includes(:song).order(:position)
     @playlist.increment!(:views_count)
   end
 

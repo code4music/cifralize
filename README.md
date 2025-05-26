@@ -76,3 +76,13 @@ Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
 ---
 
 Feito com ❤️ para músicos que precisam de organização e praticidade.
+
+Atualizar posição das playlists:
+
+```
+Playlist.find_each do |playlist|
+  playlist.playlist_songs.order(:created_at).each.with_index(1) do |ps, index|
+    ps.update_column(:position, index)
+  end
+end
+```
