@@ -1,15 +1,17 @@
-<% title ||= t('app') %>
+<% title ||= "#{t('app')} - #{t('slogan')}" %>
 <% text  ||= t('slogan') %>
 <% url   ||= request.original_url %>
 
 <div id="share-container" class="float-end">
   <button id="share-button" class="btn btn-primary mb-2">
-    <i class="fas fa-share-alt"></i> Compartilhar
+    <i class="fas fa-paper-plane"></i>
+    <span class="ms-1 d-none d-md-inline"> Compartilhar</span>
   </button>
 
   <div id="share-fallback" class="d-none dropdown">
     <button class="btn btn-primary dropdown-toggle" type="button" id="shareDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="fas fa-share-alt"></i> Compartilhar
+      <i class="fas fa-paper-plane"></i>
+      <span class="ms-1 d-none d-md-inline"> Compartilhar</span>
     </button>
     <ul class="dropdown-menu" aria-labelledby="shareDropdown">
       <li>
