@@ -9,6 +9,8 @@ class PlaylistsController < ApplicationController
     else
       @playlists = current_user.playlists
     end
+
+    @playlists = @playlists.order(created_at: :desc)
   end
 
   def show

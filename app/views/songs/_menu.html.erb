@@ -22,7 +22,7 @@
               <%= hidden_field_tag :song_id, @song.id %>
               <%= hidden_field_tag :transpose, params[:transpose].to_i %>
               <div class="mb-3">
-                <%= select_tag :playlist_id, options_from_collection_for_select(current_user.playlists, :id, :name), prompt: "Escolha uma playlist", class: "form-select" %>
+                <%= select_tag :playlist_id, options_from_collection_for_select(current_user.playlists.order(created_at: :desc), :id, :name), class: "form-select" %>
               </div>
               <%= submit_tag "Adicionar", class: "btn btn-success float-end" %>
             <% end %>

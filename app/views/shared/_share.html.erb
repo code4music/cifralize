@@ -1,0 +1,81 @@
+<% title ||= t('app') %>
+<% text  ||= t('slogan') %>
+<% url   ||= request.original_url %>
+
+<div id="share-container" class="float-end">
+  <button id="share-button" class="btn btn-primary mb-2">
+    <i class="fas fa-share-alt"></i> Compartilhar
+  </button>
+
+  <div id="share-fallback" class="d-none dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="shareDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="fas fa-share-alt"></i> Compartilhar
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="shareDropdown">
+      <li>
+        <a class="dropdown-item text-success" href="#" target="_blank" id="whatsapp-share">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item text-info" href="#" target="_blank" id="telegram-share">
+          <i class="fab fa-telegram-plane"></i> Telegram
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item text-white" href="#" target="_blank" id="twitter-share">
+          <i class="fab fa-x-twitter"></i> X (Twitter)
+        </a>
+      </li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <li>
+        <button class="dropdown-item" id="copy-link">
+          <i class="fas fa-link"></i> Copiar link
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const shareButton = document.getElementById("share-button");
+  const fallback = document.getElementById("share-fallback");
+
+  const shareData = {
+    title: "<%= title %>",
+    text: "<%= text %>",
+    url: "<%= url %>"
+  };
+
+  if (navigator.share) {
+    shareButton.addEventListener("click", async function () {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error("Erro ao compartilhar:", err);
+      }
+    });
+  } else {
+    shareButton.classList.add('d-none');
+    fallback.classList.remove('d-none');
+
+    const encodedUrl = encodeURIComponent(shareData.url);
+    const encodedText = encodeURIComponent(shareData.text);
+
+    document.getElementById("whatsapp-share").href = `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
+    document.getElementById("telegram-share").href = `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`;
+    document.getElementById("twitter-share").href = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
+
+    document.getElementById("copy-link").addEventListener("click", function () {
+      navigator.clipboard.writeText(shareData.url).then(function () {
+        alert("Link copiado para a área de transferência!");
+      }).catch(function () {
+        alert("Erro ao copiar o link.");
+      });
+    });
+  }
+});
+</script>

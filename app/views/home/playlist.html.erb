@@ -1,4 +1,7 @@
 <% content_for :title, "#{t('app')} | #{@playlist.name}" %>
+<% content_for :description, "Playlist #{@playlist.name}" %>
+
+<%= render "shared/share", title: @playlist.name, text: 'Confira essa playlist no Cifralize' %>
 
 <h1><%= @playlist.name %></h1>
 
@@ -15,7 +18,7 @@
       </div>
       <div class="modal-body">
         <p><strong>Nome:</strong> <%= @playlist.name %></p>
-        <p><strong>Descrição:</strong> <%= @playlist.description.presence || "Sem descrição" %></p>
+        <p><strong>Descrição:</strong> <%= simple_format(@playlist.description.presence || "Sem descrição") %></p>
       </div>
       <div class="modal-footer">
         <%= link_to "Editar", edit_playlist_path(@playlist), class: "btn btn-primary" %>
