@@ -39,17 +39,29 @@
         <i class="fas fa-arrow-down"></i>
       <% end %>
     </div>
-    <br>
-    <%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %>
-
-    <% transposed_chords = ChordTransposerHelper.transpose(ps.song.chords, ps.transpose) %>
-    <div class="chords-display mt-3" style="white-space: pre-wrap; font-family: monospace;"><%= raw format_chords(transposed_chords) %></div>
 
     <!--
-    <p>Tom: <%= ps.transpose %></p>
-    <%= link_to "+1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose + 1), method: :patch %>
-    <%= link_to "-1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose - 1), method: :patch %>
+    <div class="btn-group mb-2" role="group">
+      <p>Tom: <%= ps.transpose %></p>
+      <%= link_to '+1 Tom', playlist_songs_transpose_path(@playlist.uuid, ps, transpose: ps.transpose + 1) %>
+      <%= link_to '-1 Tom', playlist_songs_transpose_path(@playlist.uuid, ps, transpose: ps.transpose - 1) %>
+    </div>
+    <%= link_to "Editar", playlist_songs_edit_path(@playlist.uuid, ps) %>
     -->
+    <br>
+
+    <%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %><br><br>
+
+    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#transposeModal">
+      Tom: <%= ps.key %>
+    </button>
+
+    <br><br>
+
+    <% chords = ps.chords || ps.song.chords %>
+
+    <% transposed_chords = ChordTransposerHelper.transpose(chords, ps.transpose) %>
+    <div class="chords-display mt-3" style="white-space: pre-wrap; font-family: monospace;"><%= raw format_chords(transposed_chords) %></div>
     <br><br><hr><br>
   </div>
 <% end %>

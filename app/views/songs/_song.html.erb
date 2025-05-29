@@ -1,7 +1,6 @@
 <h1><%= @song.title %></h1>
 <p><%= link_to @song.artist.name, home_artist_path(@song.artist.slug), class: 'text-decoration-none text-body' %></p>
 
-
 <%= render "songs/transpose" %>
 
 <div class="chords-display" style="white-space: pre-wrap; font-family: monospace;">

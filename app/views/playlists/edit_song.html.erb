@@ -1,0 +1,37 @@
+<%= stylesheet_link_tag "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" %>
+<%= javascript_include_tag "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js" %>
+
+<%= form_with url: playlist_songs_update_path(@playlist, @playlist_song), method: :put, local: true do |form| %>
+  <%= render "shared/errors", model: @playlist_song %>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :key, style: "display: block" %>
+      <%= form.select :key, options_for_select(["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"], @playlist_song.key), {}, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :chords, "Música", style: "display: block" %>
+      <%= form.text_area :chords, id: "chords-editor", value: @playlist_song.chords %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
+      <%= form.label :notes, "Anotações", style: "display: block" %>
+      <%= form.text_area :notes, class: "form-control", rows: 3, value: @playlist_song.notes %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  new SimpleMDE({ element: document.getElementById("chords-editor") });
+});
+</script>

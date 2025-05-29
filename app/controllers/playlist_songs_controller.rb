@@ -2,7 +2,7 @@
 
 class PlaylistSongsController < ApplicationController
   before_action :set_playlist
-  before_action :set_playlist_song, only: %i[move_up move_down update destroy]
+  before_action :set_playlist_song, only: %i[edit update move_up move_down transpose destroy]
 
   def create
     playlist_id = params[:playlist_id]
@@ -18,12 +18,29 @@ class PlaylistSongsController < ApplicationController
     end
   end
 
+  def edit
+    @playlist_song.chords = @playlist_song.song.chords if @playlist_song.chords.blank?
+    render "playlists/edit_song"
+  end
+
   def update
-    playlist_song = PlaylistSong.find(params[:id])
-    if playlist_song.update(transpose: params[:playlist_song][:transpose].to_i)
-      redirect_to playlist_path(playlist_song.playlist), notice: 'Tom atualizado com sucesso!'
+    @playlist_song.key = params["key"]
+    @playlist_song.chords = params["chords"]
+    @playlist_song.notes = params["notes"]
+
+    if @playlist_song.save!
+      redirect_to home_playlist_path(@playlist), notice: "Música atualizada com sucesso!"
     else
-      redirect_to playlist_path(playlist_song.playlist), alert: 'Erro ao atualizar tom.'
+      render :edit
+    end
+  end
+
+  def transpose
+    playlist_song = PlaylistSong.find(params[:id])
+    if playlist_song.update(transpose: params[:transpose].to_i)
+      redirect_to home_playlist_path(playlist_song.playlist.uuid), notice: 'Tom atualizado com sucesso!'
+    else
+      redirect_to home_playlist_path(playlist_song.playlist.uuid), notice: 'Erro ao atualizar tom.'
     end
   end
 

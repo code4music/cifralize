@@ -39,11 +39,6 @@
     <% transposed_chords = ChordTransposerHelper.transpose(ps.song.chords, ps.transpose) %>
     <div class="chords-display mt-3" style="white-space: pre-wrap; font-family: monospace;"><%= raw format_chords(transposed_chords) %></div>
 
-    <!--
-    <p>Tom: <%= ps.transpose %></p>
-    <%= link_to "+1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose + 1), method: :patch %>
-    <%= link_to "-1 Tom", playlist_song_path(@playlist, ps, transpose: ps.transpose - 1), method: :patch %>
-    -->
     <br><br><hr><br>
   </div>
 <% end %>

@@ -30,7 +30,10 @@ Rails.application.routes.draw do
   resources :recordings
   resources :multirecordings
   resources :playlists
-  resources :playlist_songs, only: %i[create update destroy]
+  resources :playlist_songs, only: %i[create]
+  get '/playlists/:playlist_id/songs/:id/edit', to: 'playlist_songs#edit', as: :playlist_songs_edit
+  put '/playlists/:playlist_id/songs/:id/update', to: 'playlist_songs#update', as: :playlist_songs_update
+  get '/playlists/:playlist_id/songs/:id/transpose', to: 'playlist_songs#transpose', as: :playlist_songs_transpose
   get '/playlists/:playlist_id/songs/:id/move_up', to: 'playlist_songs#move_up', as: :playlist_songs_move_up
   get '/playlists/:playlist_id/songs/:id/move_down', to: 'playlist_songs#move_down', as: :playlist_songs_move_down
 
