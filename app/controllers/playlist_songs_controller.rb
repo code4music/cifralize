@@ -48,7 +48,7 @@ class PlaylistSongsController < ApplicationController
     @playlist_song.destroy
 
     respond_to do |format|
-      format.html { redirect_to playlist_songs_url, notice: 'Playlist song was successfully destroyed.' }
+      format.html { redirect_to home_playlist_path(@playlist.uuid), notice: 'Música removida da playlist com sucesso.' }
       format.json { head :no_content }
     end
   end

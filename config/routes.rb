@@ -23,6 +23,12 @@ Rails.application.routes.draw do
   get '/metronome', to: 'home#metronome', as: :metronome
   get 'pads', to: 'home#pads', as: :pads
 
+  get '/playlists/:playlist_id/songs/:id/edit', to: 'playlist_songs#edit', as: :playlist_songs_edit
+  put '/playlists/:playlist_id/songs/:id/update', to: 'playlist_songs#update', as: :playlist_songs_update
+  get '/playlists/:playlist_id/songs/:id/transpose', to: 'playlist_songs#transpose', as: :playlist_songs_transpose
+  get '/playlists/:playlist_id/songs/:id/move_up', to: 'playlist_songs#move_up', as: :playlist_songs_move_up
+  get '/playlists/:playlist_id/songs/:id/move_down', to: 'playlist_songs#move_down', as: :playlist_songs_move_down
+  get '/playlists/:playlist_id/songs/:id/destroy', to: 'playlist_songs#destroy', as: :playlist_songs_destroy
   resources :artists
   resources :genres
   resources :songs
@@ -31,11 +37,6 @@ Rails.application.routes.draw do
   resources :multirecordings
   resources :playlists
   resources :playlist_songs, only: %i[create]
-  get '/playlists/:playlist_id/songs/:id/edit', to: 'playlist_songs#edit', as: :playlist_songs_edit
-  put '/playlists/:playlist_id/songs/:id/update', to: 'playlist_songs#update', as: :playlist_songs_update
-  get '/playlists/:playlist_id/songs/:id/transpose', to: 'playlist_songs#transpose', as: :playlist_songs_transpose
-  get '/playlists/:playlist_id/songs/:id/move_up', to: 'playlist_songs#move_up', as: :playlist_songs_move_up
-  get '/playlists/:playlist_id/songs/:id/move_down', to: 'playlist_songs#move_down', as: :playlist_songs_move_down
 
   get '/:artist', to: 'home#artist', as: :home_artist
   get '/:artist/:song', to: 'home#song', as: :home_song

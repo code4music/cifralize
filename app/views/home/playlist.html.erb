@@ -48,6 +48,7 @@
     </div>
     -->
     <%= link_to "Editar", playlist_songs_edit_path(@playlist.uuid, ps) %>
+    <%= link_to "Remover", playlist_songs_destroy_path(@playlist.uuid, ps) %>
     <br>
 
     <%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %><br><br>
