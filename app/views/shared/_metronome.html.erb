@@ -1,0 +1,64 @@
+<div class="mb-2 d-flex align-items-center gap-2" data-bpm="<%= bpm || 120 %>">
+  <button type="button" class="btn btn-success btn-sm" id="song_bpm_start">▶️ Start</button>
+  <button type="button" class="btn btn-danger btn-sm" id="song_bpm_stop">⏹️ Stop</button>
+  <div id="song_bpm_indicator" style="font-size: 1.5rem; opacity: 0.2;">🎵</div>
+</div>
+
+<style>
+#clickIndicator {
+  transition: opacity 0.1s ease;
+  opacity: 0.2;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var container = document.querySelector("[data-bpm]");
+  var bpmInput = document.getElementById("song_bpm_input");
+  var startBtn = document.getElementById("song_bpm_start");
+  var stopBtn = document.getElementById("song_bpm_stop");
+  var clickIndicator = document.getElementById("song_bpm_indicator");
+  var interval = null;
+
+  if (!startBtn || !stopBtn || !clickIndicator || !container) return;
+
+  function getBPM() {
+    if (bpmInput && bpmInput.value) {
+      return parseInt(bpmInput.value);
+    } else {
+      return parseInt(container.dataset.bpm);
+    }
+  }
+
+  function playClick() {
+    clickIndicator.style.opacity = 1;
+    setTimeout(() => {
+      clickIndicator.style.opacity = 0.2;
+    }, 100);
+
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "square";
+    osc.frequency.setValueAtTime(1000, ctx.currentTime);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.05);
+  }
+
+  startBtn.addEventListener("click", () => {
+    const bpm = getBPM();
+    if (isNaN(bpm) || bpm < 40 || bpm > 300) {
+      alert("BPM inválido (40–300)");
+      return;
+    }
+    clearInterval(interval);
+    interval = setInterval(playClick, (60 / bpm) * 1000);
+  });
+
+  stopBtn.addEventListener("click", () => {
+    clearInterval(interval);
+  });
+});
+</script>

@@ -50,6 +50,14 @@
 
   <div class="row mb-3">
     <div class="col-md-12 col-lg-6">
+      <%= form.label :bpm, 'BPM', class: 'form-label' %>
+      <%= form.number_field :bpm, class: 'form-control', id: 'song_bpm_input', min: 40, max: 300, placeholder: 'Ex: 120' %>
+      <%= render 'shared/metronome', bpm: song.bpm %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
       <%= form.label :chords, style: "display: block" %>
       <%= form.text_area :chords, id: "chords-editor" %>
     </div>

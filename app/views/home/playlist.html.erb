@@ -51,6 +51,12 @@
     <%= link_to "Remover", playlist_songs_destroy_path(@playlist.uuid, ps) %>
     <br>
 
+    <% if ps.bpm %>
+      <p><strong>BPM:</strong> <%= ps.bpm %></p>
+      <%= render 'shared/metronome', bpm: ps.bpm %>
+      <br>
+    <% end %>
+
     <%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %><br><br>
 
     <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#transposeModal">

@@ -13,6 +13,14 @@
 
   <div class="row mb-3">
     <div class="col-md-12 col-lg-6">
+      <%= form.label :bpm, 'BPM', class: 'form-label' %>
+      <%= form.number_field :bpm, class: 'form-control', id: 'song_bpm_input', min: 40, max: 300, placeholder: 'Ex: 120' %>
+      <%= render 'shared/metronome', bpm: @playlist_song.bpm %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
       <%= form.label :chords, "Música", style: "display: block" %>
       <%= form.text_area :chords, id: "chords-editor", value: @playlist_song.chords %>
     </div>
@@ -33,5 +41,41 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   new SimpleMDE({ element: document.getElementById("chords-editor") });
+});
+</script>
+
+<script>
+let interval;
+const clickIndicator = document.getElementById("clickIndicator");
+
+function playClick() {
+  clickIndicator.style.opacity = 1;
+  setTimeout(() => {
+    clickIndicator.style.opacity = 0.2;
+  }, 100);
+
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(1000, ctx.currentTime);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.05);
+}
+
+document.getElementById("startMetronome").addEventListener("click", () => {
+  const bpm = parseInt(document.getElementById("bpmInput").value);
+  if (isNaN(bpm) || bpm < 40 || bpm > 300) {
+    alert("BPM inválido");
+    return;
+  }
+  if (interval) clearInterval(interval);
+  interval = setInterval(playClick, (60 / bpm) * 1000);
+});
+
+document.getElementById("stopMetronome").addEventListener("click", () => {
+  clearInterval(interval);
 });
 </script>
