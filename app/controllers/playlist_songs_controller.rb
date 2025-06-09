@@ -24,6 +24,7 @@ class PlaylistSongsController < ApplicationController
   end
 
   def update
+    @playlist_song.subtitle = params["subtitle"]
     @playlist_song.key = params["key"]
     @playlist_song.bpm = params["bpm"]
     @playlist_song.chords = params["chords"]

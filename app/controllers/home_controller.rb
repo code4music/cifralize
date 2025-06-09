@@ -67,6 +67,8 @@ class HomeController < ApplicationController
     @playlist = Playlist.find_by(uuid: params[:uuid])
     @playlist_songs = @playlist.playlist_songs.includes(:song).order(:position)
     @playlist.increment!(:views_count)
+
+    render layout: 'playlist'
   end
 
   def recordings

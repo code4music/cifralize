@@ -6,6 +6,13 @@
 
   <div class="row mb-3">
     <div class="col-md-12 col-lg-6">
+      <%= form.label :subtitle, "Subtítulo/Momento", style: "display: block" %>
+      <%= form.text_field :subtitle, class: "form-control", value: @playlist_song.subtitle %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12 col-lg-6">
       <%= form.label :key, style: "display: block" %>
       <%= form.select :key, options_for_select(["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"], @playlist_song.key), {}, class: "form-select" %>
     </div>

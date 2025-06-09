@@ -3,72 +3,125 @@
 
 <%= render "shared/share", text: 'Confira essa playlist no Cifralize!' %>
 
-<h1><%= @playlist.name %></h1>
-
-<button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#playlistModal-<%= @playlist.id %>">
-  Detalhes
-</button>
-
-<div class="modal fade" id="playlistModal-<%= @playlist.id %>" tabindex="-1" aria-labelledby="playlistModalLabel-<%= @playlist.id %>" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="playlistModalLabel-<%= @playlist.id %>">Detalhes da Lista</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Nome:</strong> <%= @playlist.name %></p>
-        <p><strong>Descrição:</strong> <%= simple_format(@playlist.description.presence || "Sem descrição") %></p>
-      </div>
-      <div class="modal-footer">
-        <%= link_to "Editar", edit_playlist_path(@playlist), class: "btn btn-primary" %>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+<div class="row mt-5">
+  <nav class="col-md-3 d-none d-md-block">
+    <div class="position-sticky" style="top: 80px;">
+      <h5>Sumário</h5>
+      <div class="list-group">
+        <% @playlist_songs.each_with_index do |ps, i| %>
+          <a href="#<%= ps.song.slug %>" class="list-group-item list-group-item-action">
+            <%= ps.song.title %>
+          </a>
+        <% end %>
       </div>
     </div>
+  </nav>
+
+  <nav class="col-12 d-md-none mb-3" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1050; background: white; border-top: 1px solid #ddd;">
+    <div class="p-2 position-relative">
+      <button class="btn btn-outline-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#summaryList">
+        Sumário
+      </button>
+      <div class="collapse position-absolute w-100" id="summaryList" style="bottom: 100%; left: 0; max-height: 300px; overflow-y: auto; border: 1px solid #ddd; background: white; box-shadow: 0 -2px 6px rgba(0,0,0,0.1); z-index: 1051;">
+        <div class="list-group">
+          <% @playlist_songs.each_with_index do |ps, i| %>
+            <a href="#<%= ps.song.slug %>" class="list-group-item list-group-item-action">
+              <%= ps.song.title %>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="col-12 col-md-9">
+    <h1><%= @playlist.name %></h1>
+
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#playlistModal-<%= @playlist.id %>">
+      Detalhes
+    </button>
+    <div class="modal fade" id="playlistModal-<%= @playlist.id %>" tabindex="-1" aria-labelledby="playlistModalLabel-<%= @playlist.id %>" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="playlistModalLabel-<%= @playlist.id %>">Detalhes da Lista</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Nome:</strong> <%= @playlist.name %></p>
+            <p><strong>Descrição:</strong> <%= simple_format(@playlist.description.presence || "Sem descrição") %></p>
+          </div>
+          <div class="modal-footer">
+            <%= link_to "Editar", edit_playlist_path(@playlist), class: "btn btn-primary" %>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% @playlist_songs.each do |ps| %>
+      <div id="<%= ps.song.slug %>" class="mt-5">
+        <span class="h3"><%= ps.song.title %></span>
+        <div class="btn-group mb-2" role="group">
+          <%= link_to playlist_songs_move_up_path(ps.playlist, ps), class: 'btn btn-outline-secondary btn-sm ms-2', method: :get do %>
+            <i class="fas fa-arrow-up"></i>
+          <% end %>
+          <%= link_to playlist_songs_move_down_path(ps.playlist, ps), class: 'btn btn-outline-secondary btn-sm', method: :get do %>
+            <i class="fas fa-arrow-down"></i>
+          <% end %>
+        </div>
+
+        <!--
+        <div class="btn-group mb-2" role="group">
+          <p>Tom: <%= ps.transpose %></p>
+          <%= link_to '+1 Tom', playlist_songs_transpose_path(@playlist.uuid, ps, transpose: ps.transpose + 1) %>
+          <%= link_to '-1 Tom', playlist_songs_transpose_path(@playlist.uuid, ps, transpose: ps.transpose - 1) %>
+        </div>
+        -->
+        <span class="ms-2">
+          <%= link_to "Editar", playlist_songs_edit_path(@playlist.uuid, ps) %>
+          <%= link_to "Remover", playlist_songs_destroy_path(@playlist.uuid, ps) %>
+        </span>
+        <br>
+
+        <% if ps.bpm %>
+          <p><strong>BPM:</strong> <%= ps.bpm %></p>
+          <%= render 'shared/metronome', bpm: ps.bpm %>
+          <br>
+        <% end %>
+
+        <% if ps.subtitle %>
+          <%= link_to ps.subtitle, "#", class: 'text-decoration-none text-body' %>
+        <% else %>
+          <%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %>
+        <% end %>
+        <br><br>
+
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#transposeModal">
+          Tom: <%= ps.key %>
+        </button>
+
+        <br><br>
+
+        <% chords = ps.chords || ps.song.chords %>
+
+        <% transposed_chords = ChordTransposerHelper.transpose(chords, ps.transpose) %>
+        <div class="chords-display mt-3" style="white-space: pre-wrap; font-family: monospace;"><%= raw format_chords(transposed_chords) %></div>
+        <br><br><hr><br>
+      </div>
+    <% end %>
   </div>
 </div>
 
-<% @playlist_songs.each do |ps| %>
-  <div class="mt-5">
-    <span class="h3"><%= ps.song.title %></span>
-    <div class="btn-group mb-2" role="group">
-      <%= link_to playlist_songs_move_up_path(ps.playlist, ps), class: 'btn btn-outline-secondary btn-sm ms-3', method: :get do %>
-        <i class="fas fa-arrow-up"></i>
-      <% end %>
-      <%= link_to playlist_songs_move_down_path(ps.playlist, ps), class: 'btn btn-outline-secondary btn-sm', method: :get do %>
-        <i class="fas fa-arrow-down"></i>
-      <% end %>
-    </div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const collapseElement = document.getElementById('summaryList');
+  const bsCollapse = new bootstrap.Collapse(collapseElement, { toggle: false });
 
-    <!--
-    <div class="btn-group mb-2" role="group">
-      <p>Tom: <%= ps.transpose %></p>
-      <%= link_to '+1 Tom', playlist_songs_transpose_path(@playlist.uuid, ps, transpose: ps.transpose + 1) %>
-      <%= link_to '-1 Tom', playlist_songs_transpose_path(@playlist.uuid, ps, transpose: ps.transpose - 1) %>
-    </div>
-    -->
-    <%= link_to "Editar", playlist_songs_edit_path(@playlist.uuid, ps) %>
-    <%= link_to "Remover", playlist_songs_destroy_path(@playlist.uuid, ps) %>
-    <br>
-
-    <% if ps.bpm %>
-      <p><strong>BPM:</strong> <%= ps.bpm %></p>
-      <%= render 'shared/metronome', bpm: ps.bpm %>
-      <br>
-    <% end %>
-
-    <%= link_to ps.song.artist.name, home_artist_path(ps.song.artist.slug), class: 'text-decoration-none text-body' %><br><br>
-
-    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#transposeModal">
-      Tom: <%= ps.key %>
-    </button>
-
-    <br><br>
-
-    <% chords = ps.chords || ps.song.chords %>
-
-    <% transposed_chords = ChordTransposerHelper.transpose(chords, ps.transpose) %>
-    <div class="chords-display mt-3" style="white-space: pre-wrap; font-family: monospace;"><%= raw format_chords(transposed_chords) %></div>
-    <br><br><hr><br>
-  </div>
-<% end %>
+  collapseElement.querySelectorAll('a.list-group-item').forEach(link => {
+    link.addEventListener('click', () => {
+      bsCollapse.hide();
+    });
+  });
+});
+</script>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title><%= content_for?(:title) ? yield(:title) : t('app') %></title>
+    <%= favicon_link_tag asset_path('favicon.png') %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'bootstrap/bootstrap.min.css', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'songs.css', 'data-turbo-track': 'reload' %>
+    <%= javascript_include_tag 'jquery/jquery-3.6.1.min', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'bootstrap/bootstrap.bundle.min', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <%= render "layouts/seo" %>
+  </head>
+  <body>
+    <%= render 'layouts/toast' if flash[:notice] %>
+    <%= render 'layouts/topbar' %>
+    <div class="m-5">
+      <%= yield %>
+    </div>
+    <%= render 'layouts/footer' %>
+  </body>
+</html>
