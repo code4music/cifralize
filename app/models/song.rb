@@ -12,6 +12,23 @@ class Song < ApplicationRecord
 
   VISIBILITY_OPTIONS = %w[public private unlisted]
 
+  include PgSearch::Model
+  
+  pg_search_scope :search_by_title_chords_and_artist,
+    against: [:title, :chords],
+    associated_against: {
+      artist: [:name]
+    },
+    using: {
+      tsearch: {
+        prefix: true,
+        dictionary: "portuguese"
+      },
+      trigram: {
+        threshold: 0.2
+      }
+    }
+
   def to_param
     uuid
   end

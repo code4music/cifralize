@@ -5,7 +5,7 @@
     </button>
     <div class="w-100">
       <div class="input-group">
-        <%= text_field_tag :q, params[:q], id: 'search-input', class: "form-control", placeholder: "O que você quer tocar hoje?", aria: { label: "Search" }, autofocus: true %>
+        <%= text_field_tag :q, params[:q], id: 'search-input', class: "form-control", placeholder: "O que você quer tocar hoje?", autocomplete: "off", aria: { label: "Search" }%>
         <div class="input-group-append d-flex gap-1">
           <button class="btn btn-outline-primary" type="button" id="voiceBtn" style="font-size: 26px">
             <i class="fa fa-microphone" aria-hidden="true"></i>
@@ -27,6 +27,11 @@
   .w-md-50 {
     width: 50% !important;
   }
+}
+
+#autocomplete-list {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 </style>
 
@@ -86,5 +91,90 @@ $(document).ready(function() {
       const input = document.getElementById('search-input');
       if (input) input.focus();
     }
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("search-input");
+    const form = input.closest("form");
+
+    // Criar dropdown de sugestões
+    const dropdown = document.createElement("ul");
+    dropdown.id = "autocomplete-list";
+    dropdown.style.position = "absolute";
+    dropdown.style.zIndex = "9999";
+    dropdown.style.listStyle = "none";
+    dropdown.style.margin = 0;
+    dropdown.style.padding = "0";
+    dropdown.style.backgroundColor = "#fff";
+    dropdown.style.border = "1px solid #ccc";
+    dropdown.style.maxHeight = "200px";
+    dropdown.style.overflowY = "auto";
+    dropdown.classList.add("list-group");
+    document.body.appendChild(dropdown); // Adiciona no body para posicionar melhor
+
+    let debounceTimeout;
+
+    function positionDropdown() {
+      const rect = input.getBoundingClientRect();
+      dropdown.style.top = rect.bottom + window.scrollY + "px";
+      dropdown.style.left = rect.left + window.scrollX + "px";
+      dropdown.style.width = rect.width + "px";
+    }
+
+    input.addEventListener("input", function () {
+      const query = input.value.trim();
+
+      clearTimeout(debounceTimeout);
+
+      if (query.length < 2) {
+        dropdown.innerHTML = "";
+        dropdown.style.display = "none";
+        return;
+      }
+
+      debounceTimeout = setTimeout(() => {
+        fetch(`/autocomplete.json?q=${encodeURIComponent(query)}`)
+          .then(response => response.json())
+          .then(data => {
+            dropdown.innerHTML = "";
+            if (data.length === 0) {
+              dropdown.style.display = "none";
+              return;
+            }
+
+            data.forEach(song => {
+              const item = document.createElement("li");
+              item.className = "list-group-item list-group-item-action";
+              item.style.cursor = "pointer";
+
+              item.innerHTML = `
+                <div class="fw-semibold">${song.title}</div>
+                <div class="text-muted small">${song.artist_name}</div>
+              `;
+
+              item.addEventListener("click", function () {
+                window.location.href = `/${song.artist_slug}/${song.song_slug}`;
+              });
+
+              dropdown.appendChild(item);
+            });
+
+            positionDropdown();
+            dropdown.style.display = "block";
+          });
+      }, 300);
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!form.contains(e.target)) {
+        dropdown.innerHTML = "";
+        dropdown.style.display = "none";
+      }
+    });
+
+    window.addEventListener("resize", positionDropdown);
+    window.addEventListener("scroll", positionDropdown, true);
   });
 </script>

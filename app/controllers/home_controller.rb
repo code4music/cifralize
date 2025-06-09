@@ -10,8 +10,22 @@ class HomeController < ApplicationController
 
   def search
     query = params[:q].to_s.strip
-    @songs = Song.joins(:artist).where(visibility: 'public').where("songs.title ILIKE :q OR songs.chords ILIKE :q OR artists.name ILIKE :q", q: "%#{query}%").page(params[:page]).per(20)
+    @songs = Song.includes(:artist).search_by_title_chords_and_artist(query).where(visibility: 'public').page(params[:page]).per(20)
     @playlists = Playlist.where(visibility: 'public').where('name ILIKE ?', "%#{params[:q]}%").page(params[:page]).per(20)
+  end
+
+  def autocomplete
+    query = params[:q].to_s.strip
+    @songs = Song.includes(:artist).search_by_title_chords_and_artist(query).where(visibility: 'public').limit(10)
+    render json: @songs.map { |song|
+      {
+        uuid: song.uuid,
+        title: song.title,
+        artist_name: song.artist&.name,
+        artist_slug: song.artist&.slug,
+        song_slug: song.slug
+      }
+    }
   end
 
   def about; end

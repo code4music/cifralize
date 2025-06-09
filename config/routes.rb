@@ -21,7 +21,8 @@ Rails.application.routes.draw do
   get '/songs/import', to: 'songs#import', as: :songs_import
   get '/tuner', to: 'home#tuner', as: :tuner
   get '/metronome', to: 'home#metronome', as: :metronome
-  get 'pads', to: 'home#pads', as: :pads
+  get '/pads', to: 'home#pads', as: :pads
+  get '/autocomplete', to: 'home#autocomplete', as: :autocomplete
 
   get '/playlists/:playlist_id/songs/:id/edit', to: 'playlist_songs#edit', as: :playlist_songs_edit
   put '/playlists/:playlist_id/songs/:id/update', to: 'playlist_songs#update', as: :playlist_songs_update
