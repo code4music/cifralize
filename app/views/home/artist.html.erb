@@ -1,4 +1,5 @@
-<% content_for :title, "#{t('app')} | #{@artist.name}" %>
+<% provide(:title, "#{t('app')} | #{@artist.name}") %>
+<% provide(:description, "Lista de músicas do artista #{@artist.name}") %>
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">

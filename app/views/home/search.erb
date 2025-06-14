@@ -1,4 +1,5 @@
-<% content_for :title, "#{t('app')} | Busca por #{params[:q]}" %>
+<% provide(:title, "#{t('app')} | Busca por #{params[:q]}") %>
+<% provide(:description, "Pesquise por uma música, artista ou parte da letra") %>
 
 <div class="container mt-4">
   <h3>Resultados para: "<%= params[:q] %>"</h3>

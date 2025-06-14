@@ -1,3 +1,6 @@
+<% provide(:title, "#{t('app')} | #{@recording.title}") %>
+<% provide(:description, "Gravação da música #{@recording.title} #{@recording.description}") %>
+
 <script src="https://unpkg.com/wavesurfer.js"></script>
 
 <div id="waveform"></div>

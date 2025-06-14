@@ -17,6 +17,7 @@ gem 'cancancan', '~> 3.5'
 gem 'kaminari'
 gem 'nokogiri'
 gem 'pg_search'
+gem 'sitemap_generator'
 gem 'bootsnap', require: false
 
 group :development, :test do

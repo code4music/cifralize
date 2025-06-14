@@ -1,3 +1,4 @@
-<% content_for :title, "#{t('app')} | #{@song.title} - #{@song.artist.name}" %>
+<% provide(:title, "#{t('app')} | #{@song.title} - #{@song.artist.name}") %>
+<% provide(:description, "Cifra da música #{@song.title} de #{@song.artist.name}") %>
 
 <%= render @song %>
